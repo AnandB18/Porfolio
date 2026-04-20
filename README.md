@@ -1,73 +1,63 @@
-# React + TypeScript + Vite
+# Terminal Portfolio (Web First)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interactive portfolio built as a terminal-style web app using React + TypeScript.
 
-Currently, two official plugins are available:
+The current focus is a keyboard-first command interface in the left panel, with a right panel reserved for richer GUI content.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Current Features
 
-## React Compiler
+- Command execution with typed input and output history
+- Built-in commands:
+  - `help`
+  - `clear`
+  - `whoami`
+  - `about` (alias for whoami content)
+  - `projects`
+  - `experience`
+  - `skills`
+  - `contact`
+- Command history navigation (`ArrowUp` / `ArrowDown`)
+- Minimal `Tab` autocomplete (prefix-based)
+- Unknown command suggestions (`Did you mean: ...?`)
+- Two-panel responsive layout scaffold
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Project Structure
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```txt
+src/
+  App.tsx                 # UI/controller layer for terminal input + rendering
+  core/
+    types.ts              # Shared types for command/data/runner contracts
+    data.ts               # Portfolio content data (projects, skills, etc.)
+    commands.ts           # Command registry + command helpers
+    runner.ts             # Command execution pipeline
+  styles/
+    tokens.css            # Design tokens (colors, spacing, radius)
+    base.css              # Global reset + base typography
+    layout.css            # Two-panel grid layout
+    terminal.css          # Terminal-specific styling (in progress)
+    boot.css              # Boot animation styling (planned)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Run Locally
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
+
+## Architecture Notes
+
+- Logic has been extracted from `App.tsx` into `src/core/*`.
+- `App.tsx` is focused on UI state and keyboard behavior.
+- Commands are centralized in `src/core/commands.ts`.
+- Content is centralized in `src/core/data.ts`.
+
+This makes it easier to reuse command logic for a future CLI/TUI interface.
+
+## Docs
+
+- `STARTER_CONVENTIONS.md` - coding conventions and feature done criteria
+- `IMPLEMENTATION_PLAN.md` - phased roadmap and deferred items
+- `docs/ARCHITECTURE.md` - command flow and module responsibilities
+- `docs/COMMANDS.md` - command reference and extension guide

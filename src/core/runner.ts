@@ -5,6 +5,7 @@ export const executeCommand = (
   raw: string,
   ctx: CommandContext
 ): CommandExecutionResult => {
+  // Normalize user input once so command lookup is consistent.
   const trimmed = raw.trim();
   const command = trimmed.toLowerCase();
 
@@ -29,6 +30,7 @@ export const executeCommand = (
 
   const output = def.run(ctx);
 
+  // Clear mutates state via context callback, so no output lines are returned.
   if (command === 'clear') {
     return { lines: [], didClear: true };
   }

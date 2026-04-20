@@ -31,6 +31,7 @@ function App() {
     setHistory((prev) => [...prev, ...result.lines]);
   };
 
+  // Handles keyboard-first terminal interactions (history + autocomplete).
   const handleInputKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (commandHistory.length === 0) return;
 
@@ -67,6 +68,7 @@ function App() {
       const query = input.trim().toLowerCase();
       const commandNames = Object.keys(COMMANDS);
 
+      // Empty input keeps default browser tab navigation.
       if (!query) {
         return;
       }

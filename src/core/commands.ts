@@ -1,6 +1,7 @@
 import { CONTACT, EXPERIENCE, PROJECTS, SKILLS } from './data';
 import type { CommandDefinition } from './types';
 
+// Central command registry used by help output, execution, and autocomplete.
 export const COMMANDS: Record<string, CommandDefinition> = {
   help: {
     description: 'Show available commands',
@@ -66,6 +67,7 @@ export const COMMANDS: Record<string, CommandDefinition> = {
   },
 };
 
+// Levenshtein distance for typo-aware command suggestions.
 const getEditDistance = (a: string, b: string): number => {
   const rows = a.length + 1;
   const cols = b.length + 1;
@@ -86,6 +88,7 @@ const getEditDistance = (a: string, b: string): number => {
 
 export const getCommandSuggestion = (input: string): string | null => {
   const commandNames = Object.keys(COMMANDS);
+  // Prefer prefix matches so short partial input resolves naturally.
   const prefixMatch = commandNames.find((name) => name.startsWith(input));
 
   if (prefixMatch) return prefixMatch;
