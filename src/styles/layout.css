@@ -18,3 +18,8 @@
       grid-template-columns: 1fr;
     }
   }
+
+  .preview-panel p {
+    margin: 0.4rem 0;
+    opacity: 0.9;
+  }

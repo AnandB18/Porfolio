@@ -122,7 +122,8 @@ function App() {
 
       <aside className="panel preview-panel">
         <h2>Preview</h2>
-        <p>Project images/details go here.</p>
+        <p>No active view yet.</p>
+        <p>Try: <code>whoami</code>, <code>projects</code>, <code>experience</code></p>
       </aside>
     </main>
   );
