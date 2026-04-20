@@ -9,6 +9,22 @@ export const executeCommand = (
   const trimmed = raw.trim();
   const command = trimmed.toLowerCase();
 
+  // For now we intentionally support only one command at a time.
+  const unsupportedTokens = ['&&', '||', '|', ';', '>>', '>', '<', '&'];
+  const hitToken = unsupportedTokens.find((token) => trimmed.includes(token));
+
+  if (hitToken) {
+    return {
+      lines: [
+        `> ${trimmed}`,
+        `Unsupported token detected: ${hitToken}`,
+        'Shell operators are not supported yet.',
+        'Please run one command at a time.',
+      ],
+      didClear: false,
+    };
+  }
+
   if (!command) {
     return { lines: [], didClear: false };
   }
