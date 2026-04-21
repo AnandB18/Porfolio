@@ -1,0 +1,10 @@
+.terminal-panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.terminal-output {
+    min-height: 0;
+    overflow-y: auto;
+}

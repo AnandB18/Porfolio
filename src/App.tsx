@@ -1,4 +1,4 @@
-import { type KeyboardEventHandler, useState } from 'react';
+import { type KeyboardEventHandler, useEffect, useRef, useState } from 'react';
 import { COMMANDS } from './core/commands';
 import { executeCommand } from './core/runner';
 import './styles/tokens.css';
@@ -14,6 +14,8 @@ function App() {
   ]);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const outputRef = useRef<HTMLDivElement | null>(null);
+  const [shouldAutoFollow, setShouldAutoFollow] = useState(true);
 
   const runCommand = (raw: string) => {
     const trimmed = raw.trim();
@@ -29,6 +31,15 @@ function App() {
     if (result.didClear) return;
 
     setHistory((prev) => [...prev, ...result.lines]);
+  };
+
+  const handleOutputScroll = () => {
+    const el = outputRef.current;
+    if (!el) return;
+  
+    const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+    const nearBottom = distanceFromBottom < 24;
+    setShouldAutoFollow(nearBottom);
   };
 
   // Handles keyboard-first terminal interactions (history + autocomplete).
@@ -90,12 +101,23 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    const el = outputRef.current;
+    if (!el || !shouldAutoFollow) return;
+  
+    el.scrollTop = el.scrollHeight;
+  }, [history, shouldAutoFollow]);
+
   return (
     <main className="app-shell">
       <section className="panel terminal-panel">
         <h2>Terminal</h2>
 
-        <div>
+        <div
+          ref={outputRef}
+          onScroll={handleOutputScroll}
+          className="terminal-output"
+        >
           {history.map((line, idx) => (
             <p key={`${line}-${idx}`}>{line}</p>
           ))}
