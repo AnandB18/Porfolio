@@ -1,6 +1,8 @@
 import { type KeyboardEventHandler, useEffect, useRef, useState } from 'react';
 import { COMMANDS } from './core/commands';
+import { ASCII_HEADER } from './core/data';
 import { executeCommand } from './core/runner';
+import type { TerminalLine } from './core/types';
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/layout.css';
@@ -9,8 +11,10 @@ import './styles/boot.css';
 
 function App() {
   const [input, setInput] = useState('');
-  const [history, setHistory] = useState<string[]>([
-    'Welcome. Type "help" to see commands.',
+  const [history, setHistory] = useState<TerminalLine[]>([
+    ...ASCII_HEADER.map((text) => ({ text, kind: 'ascii' as const })),
+    { text: '', kind: 'system' },
+    { text: 'Welcome. Type "help" to see commands.', kind: 'system' },
   ]);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
@@ -63,7 +67,10 @@ function App() {
       }
 
       if (matches.length > 1) {
-        setHistory((prev) => [...prev, `Suggestions: ${matches.join(', ')}`]);
+        setHistory((prev) => [
+          ...prev,
+          { text: `Suggestions: ${matches.join(', ')}`, kind: 'hint' },
+        ]);
       }
 
       return;
@@ -111,35 +118,49 @@ function App() {
   return (
     <main className="app-shell">
       <section className="panel terminal-panel">
-        <h2>Terminal</h2>
+        <div className="terminal-shell">
+          <div className="terminal-titlebar" aria-hidden="true">
+            <div className="terminal-tab">PowerShell</div>
+          </div>
 
-        <div
-          ref={outputRef}
-          onScroll={handleOutputScroll}
-          className="terminal-output"
-        >
-          {history.map((line, idx) => (
-            <p key={`${line}-${idx}`}>{line}</p>
-          ))}
+          <div className="terminal-screen">
+            <div
+              ref={outputRef}
+              onScroll={handleOutputScroll}
+              className="terminal-output"
+            >
+              {history.map((line, idx) => (
+                <p key={`${line.text}-${idx}`} className={`line-${line.kind}`}>
+                  {line.text}
+                </p>
+              ))}
+            </div>
+
+            <form
+              className="terminal-input-row"
+              onSubmit={(e) => {
+                e.preventDefault();
+                runCommand(input);
+                setInput('');
+              }}
+            >
+              <label className="terminal-prompt" htmlFor="terminal-input">
+                <span className="terminal-prompt-user">explorer</span>
+                <span className="terminal-prompt-host">@portfolio</span>
+                <span className="terminal-prompt-path">:~</span>
+                <span className="terminal-prompt-symbol">$</span>
+              </label>
+              <input
+                id="terminal-input"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleInputKeyDown}
+                autoComplete="off"
+                spellCheck={false}
+              />
+            </form>
+          </div>
         </div>
-
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            runCommand(input);
-            setInput('');
-          }}
-        >
-          <label htmlFor="terminal-input">{'>'}</label>{' '}
-          <input
-            id="terminal-input"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleInputKeyDown}
-            autoComplete="off"
-            spellCheck={false}
-          />
-        </form>
       </section>
 
       <aside className="panel preview-panel">

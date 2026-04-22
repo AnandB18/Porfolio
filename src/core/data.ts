@@ -1,5 +1,13 @@
 import type { ContactLink, Experience, Project, SkillGroup } from './types';
 
+export const ASCII_HEADER: string[] = [
+  '  ____             __  _____      ___      ',
+  ' / __ \\____  _____/ /_/ __(_)____/ (_)___ _',
+  '/ /_/ / __ \\/ ___/ __/ /_/ / ___/ / / __ `/',
+  '/ ____/ /_/ / /  / /_/ __/ / /  / / / /_/ / ',
+  '/_/    \\____/_/   \\__/_/ /_/_/  /_/_/\\__,_/',
+];
+
 export const PROJECTS: Project[] = [
   { id: 'portfolio', title: 'Terminal Portfolio' },
   { id: 'shell', title: 'Mini Shell' },

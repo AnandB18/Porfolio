@@ -1,5 +1,8 @@
 import { COMMANDS, getCommandSuggestion } from './commands';
-import type { CommandContext, CommandExecutionResult } from './types';
+import type { CommandContext, CommandExecutionResult, TerminalLine } from './types';
+
+const asOutputLines = (lines: string[]): TerminalLine[] =>
+  lines.map((text) => ({ text, kind: 'output' }));
 
 export const executeCommand = (
   raw: string,
@@ -16,10 +19,10 @@ export const executeCommand = (
   if (hitToken) {
     return {
       lines: [
-        `> ${trimmed}`,
-        `Unsupported token detected: ${hitToken}`,
-        'Shell operators are not supported yet.',
-        'Please run one command at a time.',
+        { text: `> ${trimmed}`, kind: 'command' },
+        { text: `Unsupported token detected: ${hitToken}`, kind: 'error' },
+        { text: 'Shell operators are not supported yet.', kind: 'hint' },
+        { text: 'Please run one command at a time.', kind: 'hint' },
       ],
       didClear: false,
     };
@@ -36,9 +39,9 @@ export const executeCommand = (
     const suggestionLine = suggestion ? `Did you mean: ${suggestion}?` : null;
     return {
       lines: [
-        `> ${trimmed}`,
-        `Command not found: ${command}`,
-        ...(suggestionLine ? [suggestionLine] : []),
+        { text: `> ${trimmed}`, kind: 'command' },
+        { text: `Command not found: ${command}`, kind: 'error' },
+        ...(suggestionLine ? [{ text: suggestionLine, kind: 'hint' as const }] : []),
       ],
       didClear: false,
     };
@@ -52,7 +55,7 @@ export const executeCommand = (
   }
 
   return {
-    lines: [`> ${trimmed}`, ...output],
+    lines: [{ text: `> ${trimmed}`, kind: 'command' }, ...asOutputLines(output)],
     didClear: false,
   };
 };

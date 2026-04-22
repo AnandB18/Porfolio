@@ -1,10 +1,155 @@
 .terminal-panel {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0;
+}
+
+.terminal-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  border: 1px solid var(--color-terminal-shell-border);
+  border-radius: 10px;
+  background: var(--color-terminal-shell-bg);
+  overflow: hidden;
+}
+
+.terminal-titlebar {
+  position: relative;
+  height: 38px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 12px;
+  background: var(--color-terminal-titlebar-bg);
+}
+
+.terminal-titlebar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-bottom: 1px solid var(--color-terminal-shell-border);
+  z-index: 0;
+}
+
+.terminal-tab {
+  position: relative;
+  z-index: 1;
+  height: 32px;
+  min-width: 220px;
+  max-width: min(300px, 75%);
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px;
+  margin-bottom: 0px;
+  background: var(--color-terminal-shell-bg);
+  color: var(--color-terminal-tab-text);
+  border: 1px solid var(--color-terminal-tab-border);
+  border-bottom-color: var(--color-terminal-shell-bg);
+  border-radius: 9px 9px 0 0;
+  line-height: 1;
+
+
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.terminal-screen {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 12px;
+  gap: 8px;
 }
 
 .terminal-output {
-    min-height: 0;
-    overflow-y: auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.terminal-output p {
+  margin: 0 0 0.35rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.terminal-output .line-ascii {
+  color: var(--color-terminal-line-ascii);
+}
+
+.terminal-output .line-system {
+  color: var(--color-terminal-line-system);
+}
+
+.terminal-output .line-command {
+  color: var(--color-terminal-line-command);
+}
+
+.terminal-output .line-output {
+  color: var(--color-terminal-line-output);
+}
+
+.terminal-output .line-hint {
+  color: var(--color-terminal-line-hint);
+}
+
+.terminal-output .line-error {
+  color: var(--color-terminal-line-error);
+}
+
+.terminal-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.terminal-prompt {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.terminal-prompt-user {
+  color: var(--color-prompt-user);
+}
+
+.terminal-prompt-host {
+  color: var(--color-prompt-host);
+}
+
+.terminal-prompt-path {
+  color: var(--color-prompt-path);
+}
+
+.terminal-prompt-symbol {
+  color: var(--color-prompt-symbol);
+  margin-right: 0.45rem;
+}
+
+#terminal-input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+@media (max-width: 900px) {
+  .terminal-shell {
+    min-height: 340px;
+  }
 }

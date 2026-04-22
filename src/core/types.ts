@@ -33,6 +33,19 @@ export type ContactLink = {
 };
 
 export type CommandExecutionResult = {
-  lines: string[];
+  lines: TerminalLine[];
   didClear: boolean;
+};
+
+export type TerminalLineKind =
+  | 'ascii'
+  | 'system'
+  | 'command'
+  | 'output'
+  | 'hint'
+  | 'error';
+
+export type TerminalLine = {
+  text: string;
+  kind: TerminalLineKind;
 };
