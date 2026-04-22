@@ -44,6 +44,31 @@ function App() {
 
   // Handles keyboard-first terminal interactions (history + autocomplete).
   const handleInputKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === 'Tab') {
+      const query = input.trim().toLowerCase();
+      const commandNames = Object.keys(COMMANDS);
+
+      // Empty input keeps default browser tab navigation.
+      if (!query) {
+        return;
+      }
+
+      e.preventDefault();
+
+      const matches = commandNames.filter((name) => name.startsWith(query));
+
+      if (matches.length === 1) {
+        setInput(`${matches[0]} `);
+        return;
+      }
+
+      if (matches.length > 1) {
+        setHistory((prev) => [...prev, `Suggestions: ${matches.join(', ')}`]);
+      }
+
+      return;
+    }
+
     if (commandHistory.length === 0) return;
 
     if (e.key === 'ArrowUp') {
@@ -73,31 +98,6 @@ function App() {
 
       setHistoryIndex(nextIndex);
       setInput(commandHistory[nextIndex]);
-    }
-
-    if (e.key === 'Tab') {
-      const query = input.trim().toLowerCase();
-      const commandNames = Object.keys(COMMANDS);
-
-      // Empty input keeps default browser tab navigation.
-      if (!query) {
-        return;
-      }
-
-      e.preventDefault();
-
-      const matches = commandNames.filter((name) => name.startsWith(query));
-
-      if (matches.length === 1) {
-        setInput(`${matches[0]} `);
-        return;
-      }
-
-      if (matches.length > 1) {
-        setHistory((prev) => [...prev, `Suggestions: ${matches.join(', ')}`]);
-      }
-
-      return;
     }
   };
 
