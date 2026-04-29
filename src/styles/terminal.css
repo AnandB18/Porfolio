@@ -19,6 +19,8 @@
 .terminal-titlebar {
   position: relative;
   height: 38px;
+  flex: 0 0 38px;
+  z-index: 2;
   display: flex;
   align-items: flex-end;
   padding: 0 12px;
@@ -63,6 +65,8 @@
 
 .terminal-screen {
   display: flex;
+  flex: 1;
+  overflow: hidden;
   flex-direction: column;
   min-height: 0;
   padding: 12px;
@@ -71,15 +75,22 @@
 
 .terminal-output {
   min-height: 0;
+  height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-right: 2px;
+  scrollbar-gutter: stable;
 }
 
 .terminal-output p {
-  margin: 0 0 0.35rem;
-  line-height: 1.45;
+  margin: 0 0 0.08rem;
+  line-height: 1.24;
   white-space: pre-wrap;
   word-break: break-word;
+}
+
+.terminal-output .line-typing-active {
+  white-space: pre-wrap;
 }
 
 .terminal-output .line-ascii {
@@ -106,10 +117,11 @@
   color: var(--color-terminal-line-error);
 }
 
-.terminal-input-row {
+.terminal-active-prompt-line {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-top: 0.1rem;
 }
 
 .terminal-prompt {
@@ -118,6 +130,14 @@
   align-items: center;
   gap: 0;
   font-weight: 600;
+  white-space: nowrap;
+}
+
+.terminal-transcript-prompt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  margin-right: 0.15rem;
   white-space: nowrap;
 }
 
