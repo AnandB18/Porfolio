@@ -14,7 +14,6 @@ The current focus is a keyboard-first command interface in the left panel, with 
   - `about` (alias for whoami content)
   - `projects`
   - `experience`
-  - `skills`
   - `contact`
 - Command history navigation (`ArrowUp` / `ArrowDown`)
 - Minimal `Tab` autocomplete (prefix-based)
@@ -28,7 +27,7 @@ src/
   App.tsx                 # UI/controller layer for terminal input + rendering
   core/
     types.ts              # Shared types for command/data/runner contracts
-    data.ts               # Portfolio content data (projects, skills, etc.)
+    data.ts               # Portfolio content data (projects, experience, contact)
     commands.ts           # Command registry + command helpers
     runner.ts             # Command execution pipeline
   styles/

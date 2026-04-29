@@ -29,7 +29,6 @@ This plan tracks what is done, what is next, and what we are intentionally delay
    - Keep terminal output concise and use panel for rich details.
 
 3. Add remaining baseline commands
-   - `skills`
    - `contact`
    - Optional alias: `about` -> `whoami`
 

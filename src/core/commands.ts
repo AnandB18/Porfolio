@@ -1,4 +1,13 @@
-import { CONTACT, EXPERIENCE, PROJECTS, SKILLS } from './data';
+import {
+  ABOUT_LINES,
+  CONTACT,
+  CONTACT_HEADER,
+  EXPERIENCE,
+  EXPERIENCE_HEADER,
+  PROJECTS,
+  PROJECTS_FOOTER,
+  PROJECTS_HEADER,
+} from './data';
 import type { CommandDefinition } from './types';
 
 // Central command registry used by help output, execution, and autocomplete.
@@ -19,51 +28,33 @@ export const COMMANDS: Record<string, CommandDefinition> = {
   },
   whoami: {
     description: 'Learn about me',
-    run: () => [
-      'I am Anand...',
-      'This portfolio is a terminal-inspired interface.',
-      'Try: projects, experience, skills, contact',
-    ],
+    run: () => ABOUT_LINES,
   },
   about: {
     description: 'Alias for whoami',
-    run: () => [
-      'I am Anand...',
-      'This portfolio is a terminal-inspired interface.',
-      'Try: projects, experience, skills, contact',
-    ],
+    run: () => ABOUT_LINES,
   },
   projects: {
     description: 'List available projects',
     run: () => [
-      'Projects:',
+      PROJECTS_HEADER,
       ...PROJECTS.map((p) => `- ${p.id}: ${p.title}`),
-      'Project details panel wiring comes next.',
+      PROJECTS_FOOTER,
     ],
   },
   experience: {
     description: 'Show work experience',
     run: () => [
-      'Experience:',
+      EXPERIENCE_HEADER,
       ...EXPERIENCE.flatMap((item) => [
         `- ${item.role} | ${item.org} | ${item.period}`,
         ...item.highlights.map((point) => `  ${point}`),
       ]),
     ],
   },
-  skills: {
-    description: 'Show technical skills',
-    run: () => [
-      'Skills:',
-      ...SKILLS.flatMap((group) => [
-        `- ${group.label}:`,
-        ...group.items.map((item) => `  ${item}`),
-      ]),
-    ],
-  },
   contact: {
     description: 'Show contact links',
-    run: () => ['Contact:', ...CONTACT.map((item) => `- ${item.label}: ${item.value}`)],
+    run: () => [CONTACT_HEADER, ...CONTACT.map((item) => `- ${item.label}: ${item.value}`)],
   },
 };
 

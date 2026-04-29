@@ -15,7 +15,7 @@ Defines shared contracts:
 
 - command context
 - command definitions
-- content models (projects, experience, skills, contact)
+- content models (projects, experience, contact)
 - command execution result
 
 This is the contract boundary between logic and interfaces.
@@ -26,7 +26,6 @@ Contains static portfolio content:
 
 - `PROJECTS`
 - `EXPERIENCE`
-- `SKILLS`
 - `CONTACT`
 
 Keep this file content-focused (no UI logic).
