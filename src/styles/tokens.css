@@ -21,6 +21,9 @@
   --color-terminal-line-output: var(--color-text);
   --color-terminal-line-hint: #8eb6ff;
   --color-terminal-line-error: #ff8f8f;
+  --color-terminal-scrollbar-track: #111720;
+  --color-terminal-scrollbar-thumb: #334457;
+  --color-terminal-scrollbar-thumb-hover: #43617f;
 
   --space-4: 1rem;
 
