@@ -19,7 +19,7 @@ export const executeCommand = (
   if (hitToken) {
     return {
       lines: [
-        { text: `> ${trimmed}`, kind: 'command' },
+        { text: trimmed, kind: 'command' },
         { text: `Unsupported token detected: ${hitToken}`, kind: 'error' },
         { text: 'Shell operators are not supported yet.', kind: 'hint' },
         { text: 'Please run one command at a time.', kind: 'hint' },
@@ -39,7 +39,7 @@ export const executeCommand = (
     const suggestionLine = suggestion ? `Did you mean: ${suggestion}?` : null;
     return {
       lines: [
-        { text: `> ${trimmed}`, kind: 'command' },
+        { text: trimmed, kind: 'command' },
         { text: `Command not found: ${command}`, kind: 'error' },
         ...(suggestionLine ? [{ text: suggestionLine, kind: 'hint' as const }] : []),
       ],
@@ -55,7 +55,7 @@ export const executeCommand = (
   }
 
   return {
-    lines: [{ text: `> ${trimmed}`, kind: 'command' }, ...asOutputLines(output)],
+    lines: [{ text: trimmed, kind: 'command' }, ...asOutputLines(output)],
     didClear: false,
   };
 };

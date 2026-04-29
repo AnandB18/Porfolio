@@ -1,8 +1,9 @@
-import { type KeyboardEventHandler, useEffect, useRef, useState } from 'react';
+import { type KeyboardEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 import { COMMANDS } from './core/commands';
 import { ASCII_HEADER } from './core/data';
 import { executeCommand } from './core/runner';
 import type { TerminalLine } from './core/types';
+import { useTerminalTyping } from './hooks/useTerminalTyping';
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/layout.css';
@@ -24,19 +25,25 @@ function App() {
   const outputRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [shouldAutoFollow, setShouldAutoFollow] = useState(true);
-  const [typingQueue, setTypingQueue] = useState<TerminalLine[]>([]);
-  const [activeTypingLines, setActiveTypingLines] = useState<Array<{
-    id: number;
-    line: TerminalLine;
-    visibleChars: number;
-    waitMs: number;
-  }>>([]);
-  const typingIdRef = useRef(0);
-
-  const enqueueLines = (lines: TerminalLine[]) => {
+  const commitTypedLines = useCallback((lines: TerminalLine[]) => {
     if (lines.length === 0) return;
-    setTypingQueue((prev) => [...prev, ...lines]);
-  };
+    setHistory((prev) => [...prev, ...lines]);
+  }, []);
+  const { activeTypingLines, enqueueLines, clearTyping } = useTerminalTyping({
+    maxConcurrentTypingLines,
+    overlapStartRatio,
+    typingTickMs,
+    onCommitLines: commitTypedLines,
+  });
+
+  const renderPrompt = () => (
+    <span className="terminal-transcript-prompt">
+      <span className="terminal-prompt-user">explorer</span>
+      <span className="terminal-prompt-host">@portfolio</span>
+      <span className="terminal-prompt-path">:~</span>
+      <span className="terminal-prompt-symbol">$</span>
+    </span>
+  );
 
   const runCommand = (raw: string) => {
     const trimmed = raw.trim();
@@ -50,8 +57,7 @@ function App() {
     });
 
     if (result.didClear) {
-      setTypingQueue([]);
-      setActiveTypingLines([]);
+      clearTyping();
       return;
     }
     const immediateCommandLines = result.lines.filter((line) => line.kind === 'command');
@@ -153,81 +159,6 @@ function App() {
     inputRef.current?.focus();
   }, [history, activeTypingLines]);
 
-  useEffect(() => {
-    if (typingQueue.length === 0) return;
-    if (activeTypingLines.length >= maxConcurrentTypingLines) return;
-
-    if (activeTypingLines.length > 0) {
-      const latest = activeTypingLines[activeTypingLines.length - 1];
-      const latestLineLength = Math.max(1, latest.line.text.length);
-      const latestProgress = latest.visibleChars / latestLineLength;
-      if (latestProgress < overlapStartRatio) return;
-    }
-
-    const [nextLine, ...rest] = typingQueue;
-    setTypingQueue(rest);
-    setActiveTypingLines((prev) => [
-      ...prev,
-      {
-        id: typingIdRef.current++,
-        line: nextLine,
-        visibleChars: 0,
-        waitMs: 0,
-      },
-    ]);
-  }, [activeTypingLines, typingQueue]);
-
-  useEffect(() => {
-    if (activeTypingLines.length === 0) return;
-    const timeoutId = window.setTimeout(() => {
-      setActiveTypingLines((prev) =>
-        prev.map((entry) => {
-          const fullText = entry.line.text;
-
-          if (entry.visibleChars >= fullText.length) {
-            return entry;
-          }
-
-          if (entry.waitMs > typingTickMs) {
-            return { ...entry, waitMs: entry.waitMs - typingTickMs };
-          }
-
-          const currentChar = fullText[entry.visibleChars];
-          const isPunctuation = currentChar ? '.,:;!?'.includes(currentChar) : false;
-          const delayMs = currentChar === ' ' ? 2 : isPunctuation ? 20 : 8;
-
-          return {
-            ...entry,
-            visibleChars: entry.visibleChars + 1,
-            waitMs: delayMs,
-          };
-        })
-      );
-    }, typingTickMs);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [activeTypingLines]);
-
-  useEffect(() => {
-    if (activeTypingLines.length === 0) return;
-    let completedPrefixCount = 0;
-    for (const entry of activeTypingLines) {
-      if (entry.visibleChars >= entry.line.text.length) {
-        completedPrefixCount += 1;
-        continue;
-      }
-      break;
-    }
-
-    if (completedPrefixCount === 0) return;
-
-    const committed = activeTypingLines
-      .slice(0, completedPrefixCount)
-      .map((entry) => entry.line);
-    setHistory((historyPrev) => [...historyPrev, ...committed]);
-    setActiveTypingLines((prev) => prev.slice(completedPrefixCount));
-  }, [activeTypingLines]);
-
   return (
     <main className="app-shell">
       <section className="panel terminal-panel">
@@ -247,13 +178,8 @@ function App() {
                 <p key={`${line.text}-${idx}`} className={`line-${line.kind}`}>
                   {line.kind === 'command' ? (
                     <>
-                      <span className="terminal-transcript-prompt">
-                        <span className="terminal-prompt-user">explorer</span>
-                        <span className="terminal-prompt-host">@portfolio</span>
-                        <span className="terminal-prompt-path">:~</span>
-                        <span className="terminal-prompt-symbol">$</span>
-                      </span>
-                      {line.text.startsWith('> ') ? line.text.slice(2) : line.text}
+                      {renderPrompt()}
+                      {line.text}
                     </>
                   ) : (
                     line.text
@@ -263,32 +189,14 @@ function App() {
               {activeTypingLines.map((entry) => {
                 return (
                   <p key={entry.id} className={`line-${entry.line.kind} line-typing-active`}>
-                    {entry.line.kind === 'command' ? (
-                      <>
-                        <span className="terminal-transcript-prompt">
-                          <span className="terminal-prompt-user">explorer</span>
-                          <span className="terminal-prompt-host">@portfolio</span>
-                          <span className="terminal-prompt-path">:~</span>
-                          <span className="terminal-prompt-symbol">$</span>
-                        </span>
-                        {(entry.line.text.startsWith('> ')
-                          ? entry.line.text.slice(2)
-                          : entry.line.text
-                        ).slice(0, entry.visibleChars)}
-                      </>
-                    ) : (
-                      entry.line.text.slice(0, entry.visibleChars)
-                    )}
+                    {entry.line.text.slice(0, entry.visibleChars)}
                   </p>
                 );
               })}
 
               <div className="terminal-active-prompt-line">
                 <label className="terminal-prompt" htmlFor="terminal-input">
-                  <span className="terminal-prompt-user">explorer</span>
-                  <span className="terminal-prompt-host">@portfolio</span>
-                  <span className="terminal-prompt-path">:~</span>
-                  <span className="terminal-prompt-symbol">$</span>
+                  {renderPrompt()}
                 </label>
                 <input
                   ref={inputRef}
