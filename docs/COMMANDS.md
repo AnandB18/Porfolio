@@ -31,10 +31,6 @@ This file documents the current command surface and expected behavior.
 - Prints role/org/period entries from `EXPERIENCE`.
 - Includes nested highlight lines per experience item.
 
-## `skills`
-
-- Prints grouped skills from `SKILLS`.
-
 ## `contact`
 
 - Prints contact endpoints from `CONTACT`.

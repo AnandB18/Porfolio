@@ -1,4 +1,4 @@
-import type { ContactLink, Experience, Project, SkillGroup } from './types';
+import type { ContactLink, Experience, Project } from './types';
 
 export const ASCII_HEADER: string[] = [
   '  ____             __  _____      ___      ',
@@ -7,6 +7,17 @@ export const ASCII_HEADER: string[] = [
   '/ ____/ /_/ / /  / /_/ __/ / /  / / / /_/ / ',
   '/_/    \\____/_/   \\__/_/ /_/_/  /_/_/\\__,_/',
 ];
+
+export const ABOUT_LINES: string[] = [
+  'I am Anand...',
+  'This portfolio is a terminal-inspired interface.',
+  'Try: projects, experience, contact',
+];
+
+export const PROJECTS_HEADER = 'Projects:';
+export const PROJECTS_FOOTER = 'Project details panel wiring comes next.';
+export const EXPERIENCE_HEADER = 'Experience:';
+export const CONTACT_HEADER = 'Contact:';
 
 export const PROJECTS: Project[] = [
   { id: 'portfolio', title: 'Terminal Portfolio' },
@@ -21,21 +32,6 @@ export const EXPERIENCE: Experience[] = [
     org: 'Your Company',
     period: 'Summer 2025',
     highlights: ['Built internal tools and shipped production-facing updates.'],
-  },
-];
-
-export const SKILLS: SkillGroup[] = [
-  {
-    label: 'Languages',
-    items: ['TypeScript', 'JavaScript', 'Python', 'C/C++'],
-  },
-  {
-    label: 'Frontend',
-    items: ['React', 'HTML/CSS', 'Responsive UI', 'Accessibility'],
-  },
-  {
-    label: 'Tools',
-    items: ['Git', 'Linux', 'Node.js', 'REST APIs'],
   },
 ];
 
