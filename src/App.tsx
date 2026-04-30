@@ -4,6 +4,7 @@ import {
   ABOUT_PREVIEW,
   ASCII_HEADER,
   CURRENTLY_ITEMS,
+  EDUCATION,
   EXPERIENCE,
   PREVIEW_DEFAULT_COMMANDS,
   PREVIEW_DEFAULT_NAME,
@@ -25,7 +26,14 @@ import './styles/terminal.css';
 import './styles/preview.css';
 import './styles/boot.css';
 
-type PreviewState = 'default' | 'whoami' | 'about' | 'projects' | 'experience' | 'contact';
+type PreviewState =
+  | 'default'
+  | 'whoami'
+  | 'about'
+  | 'projects'
+  | 'experience'
+  | 'education'
+  | 'contact';
 type PreviewEffect = 'idle' | 'pulse' | 'spike';
 
 function App() {
@@ -242,6 +250,39 @@ function App() {
                   <ul className="preview-experience-highlights">
                     {item.highlights.map((point) => (
                       <li key={`${item.id}-${point}`}>{point}</li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    if (previewState === 'education') {
+      return (
+        <section className="preview-experience" aria-label="Education">
+          <h3 className="preview-experience-title">Education</h3>
+          <div className="preview-experience-timeline">
+            {EDUCATION.map((item) => (
+              <article key={item.id} className="preview-experience-item">
+                <div className="preview-experience-card">
+                  <header className="preview-experience-head">
+                    <h4 className="preview-experience-role">{item.school}</h4>
+                    <p className="preview-experience-meta">
+                      <span className="preview-experience-org">{item.program}</span>
+                      <span className="preview-experience-period">{item.period}</span>
+                    </p>
+                  </header>
+                  <ul className="preview-experience-highlights">
+                    {item.location ? <li key={`${item.id}-location`}>Location: {item.location}</li> : null}
+                    {item.gpa ? <li key={`${item.id}-gpa`}>GPA: {item.gpa}</li> : null}
+                    {item.honors?.map((honor) => (
+                      <li key={`${item.id}-honor-${honor}`}>Honor: {honor}</li>
+                    ))}
+                    {item.highlights?.map((point) => (
+                      <li key={`${item.id}-highlight-${point}`}>{point}</li>
                     ))}
                   </ul>
                 </div>

@@ -2,6 +2,8 @@ import {
   ABOUT_LINES,
   CONTACT,
   CONTACT_HEADER,
+  EDUCATION,
+  EDUCATION_HEADER,
   EXPERIENCE,
   EXPERIENCE_HEADER,
   PROJECTS,
@@ -49,6 +51,20 @@ export const COMMANDS: Record<string, CommandDefinition> = {
       ...EXPERIENCE.flatMap((item) => [
         `- ${item.role} | ${item.org} | ${item.period}`,
         ...item.highlights.map((point) => `  ${point}`),
+      ]),
+    ],
+  },
+  education: {
+    description: 'Show education background',
+    run: () => [
+      EDUCATION_HEADER,
+      ...EDUCATION.flatMap((item) => [
+        `- ${item.program} | ${item.school} | ${item.period}`,
+        ...(item.location ? [`  Location: ${item.location}`] : []),
+        ...(item.gpa ? [`  GPA: ${item.gpa}`] : []),
+        ...(item.honors?.length ? [`  Honors: ${item.honors.join(', ')}`] : []),
+        ...(item.coursework?.length ? [`  Coursework: ${item.coursework.join(', ')}`] : []),
+        ...(item.highlights ?? []).map((point) => `  ${point}`),
       ]),
     ],
   },

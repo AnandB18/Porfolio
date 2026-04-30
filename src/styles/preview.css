@@ -19,7 +19,8 @@
 .preview-output-default,
 .preview-output-whoami,
 .preview-output-about,
-.preview-output-experience {
+.preview-output-experience,
+.preview-output-education {
   background:
     radial-gradient(680px circle at 16% 10%, rgba(94, 161, 255, 0.16), transparent 56%),
     linear-gradient(155deg, #121b26 0%, #0c1117 72%);
@@ -28,7 +29,8 @@
 .preview-output-default::before,
 .preview-output-whoami::before,
 .preview-output-about::before,
-.preview-output-experience::before {
+.preview-output-experience::before,
+.preview-output-education::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -49,7 +51,8 @@
 .preview-output-default::after,
 .preview-output-whoami::after,
 .preview-output-about::after,
-.preview-output-experience::after {
+.preview-output-experience::after,
+.preview-output-education::after {
   content: '';
   position: absolute;
   inset: -18%;
@@ -423,7 +426,8 @@
   .preview-output-default::after,
   .preview-output-whoami::after,
   .preview-output-about::after,
-  .preview-output-experience::after {
+  .preview-output-experience::after,
+  .preview-output-education::after {
     animation: none;
   }
 }

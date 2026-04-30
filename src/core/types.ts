@@ -22,6 +22,18 @@ export type Experience = {
   highlights: string[];
 };
 
+export type Education = {
+  id: string;
+  school: string;
+  program: string;
+  period: string;
+  location?: string;
+  gpa?: string;
+  honors?: string[];
+  coursework?: string[];
+  highlights?: string[];
+};
+
 export type SkillGroup = {
   label: string;
   items: string[];

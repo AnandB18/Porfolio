@@ -1,4 +1,4 @@
-import type { ContactLink, Experience, Project, CurrentlyItem } from './types';
+import type { ContactLink, Experience, Project, CurrentlyItem, Education } from './types';
 
 export const ASCII_HEADER: string[] = [
   '  ____             __  _____      ___      ',
@@ -22,6 +22,7 @@ export const PREVIEW_DEFAULT_COMMANDS = 'Try: whoami, experience, or projects to
 export const PROJECTS_HEADER = 'Projects:';
 export const PROJECTS_FOOTER = 'Project details panel wiring comes next.';
 export const EXPERIENCE_HEADER = 'Experience:';
+export const EDUCATION_HEADER = 'Education:';
 export const CONTACT_HEADER = 'Contact:';
 
 export const ABOUT_PREVIEW = {
@@ -29,7 +30,8 @@ export const ABOUT_PREVIEW = {
   title: 'WHOAMI',
   paragraphs: [
     'I am ...',
-    'Outside of work ...',
+    'I have done this...',
+    'everything is great...',
     'You can connect with me below.',
   ],
 };
@@ -58,7 +60,7 @@ export const EXPERIENCE: Experience[] = [
   {
     id: 'research-fellow',
     role: 'Research Fellow ',
-    org: 'George Washington University',
+    org: 'The George Washington University',
     period: 'May 2026 - Present',
     highlights: ['Built security tools for detecting if drones are compromised.', 'Worked on a project to detect if a drone is compromised by analyzing the drone\'s behavior and data.'],
   },
@@ -76,6 +78,28 @@ export const EXPERIENCE: Experience[] = [
     period: 'June 2024 - June 2025',
     highlights: ['Taught students the basics of algorithsm and data structures using Java', 'Worked on a project to create a data structures and algorithms library that is easy to learn and use.'],
   },
+];
+
+export const EDUCATION: Education[] = [
+  {
+    id: 'gw-bs-cs',
+    school: 'The George Washington University',
+    program: 'Bachelor of Science in Computer Science',
+    period: 'expected graduation: May 2027',
+    location: 'Washington, DC',
+    gpa: '3.8',
+    honors: ['Dean\'s List', 'President\'s List'],
+    coursework: ['Data Structures', 'Algorithms', 'Operating Systems', 'Computer Architecture', 'Computer Networks', 'Database Systems', 'Software Engineering'],
+    highlights: ['some highlights....', 'some more highlishts...', 'some more highlights...'],
+  },
+  {
+    id: 'ucd-stdyabrd',
+    school: 'University College Dublin',
+    program: 'Study Abroad',
+    period: 'January 2026 - May 2026',
+    location: 'Dublin, Ireland',
+    highlights: ['some highlights....', 'some more highlishts...', 'some more highlights...'],
+  }
 ];
 
 export const CONTACT: ContactLink[] = [
