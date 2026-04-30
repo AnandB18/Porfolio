@@ -49,3 +49,13 @@ export type TerminalLine = {
   text: string;
   kind: TerminalLineKind;
 };
+
+export type CurrentlyItem = {
+  label: string;
+  title: string;
+  subtitle?: string;
+  description: string;
+  imageKey?: string;
+  imageAlt?: string;
+  href?: string;
+};

@@ -1,11 +1,18 @@
 import { type KeyboardEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 import { COMMANDS } from './core/commands';
 import {
+  ABOUT_PREVIEW,
   ASCII_HEADER,
+  CURRENTLY_ITEMS,
+  PREVIEW_DEFAULT_COMMANDS,
   PREVIEW_DEFAULT_NAME,
   PREVIEW_DEFAULT_ROLE,
   PREVIEW_DEFAULT_TAGLINE,
+  SOCIAL_LINKS,
 } from './core/data';
+import anandImage from './assets/Profile_Pic.jpg';
+import avatarPhoto from './assets/Avatar_Photo.png';
+import redRisingPhoto from './assets/Red_Rising_Photo.jpg';
 import { executeCommand } from './core/runner';
 import type { TerminalLine } from './core/types';
 import { useTerminalTyping } from './hooks/useTerminalTyping';
@@ -48,6 +55,10 @@ function App() {
     typingTickMs,
     onCommitLines: commitTypedLines,
   });
+  const currentlyImageMap: Record<string, string> = {
+    'reading-image': redRisingPhoto,
+    'watching-image': avatarPhoto,
+  };
 
   const renderPrompt = () => (
     <span className="terminal-transcript-prompt">
@@ -108,6 +119,18 @@ function App() {
   };
 
   const renderPreviewContent = () => {
+    const renderCommandHint = (line: string) =>
+      line.split(/(\s+)/).map((token, idx) => {
+        const normalized = token.toLowerCase().replace(/[^a-z-]/g, '');
+        const isCommand = Object.hasOwn(COMMANDS, normalized);
+
+        return (
+          <span key={`${token}-${idx}`} className={isCommand ? 'preview-cmd' : undefined}>
+            {token}
+          </span>
+        );
+      });
+
     if (previewState === 'default') {
       return (
         <div className="preview-default">
@@ -115,8 +138,88 @@ function App() {
             <h3 className="preview-name">{PREVIEW_DEFAULT_NAME}</h3>
             <p className="preview-role">{PREVIEW_DEFAULT_ROLE}</p>
             <p className="preview-tagline">{PREVIEW_DEFAULT_TAGLINE}</p>
+            <p className="preview-commands">{renderCommandHint(PREVIEW_DEFAULT_COMMANDS)}</p>
           </div>
         </div>
+      );
+    }
+
+    if (previewState === 'whoami' || previewState === 'about') {
+      return (
+        <section className="preview-about">
+          <div className="preview-about-top">
+            <div className="preview-about-text">
+              <h3 className="preview-about-title">{ABOUT_PREVIEW.title}</h3>
+              {ABOUT_PREVIEW.paragraphs.map((paragraph, idx) => (
+                <p key={`${paragraph}-${idx}`}>{paragraph}</p>
+              ))}
+              <div className="preview-about-links" aria-label="Connect links">
+                {SOCIAL_LINKS.map((item) => {
+                  const isExternal = item.href.startsWith('http');
+                  return (
+                    <a
+                      key={item.label}
+                      className="preview-about-link"
+                      href={item.href}
+                      target={isExternal ? '_blank' : undefined}
+                      rel={isExternal ? 'noreferrer' : undefined}
+                    >
+                      {item.label}
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="preview-about-image-wrap">
+              <img className="preview-about-image" src={anandImage} alt={ABOUT_PREVIEW.imageAlt} />
+            </div>
+          </div>
+          <section className="preview-currently" aria-label="Currently">
+            <h4 className="preview-currently-title">Currently</h4>
+            <div className="preview-currently-grid">
+              {CURRENTLY_ITEMS.map((item) => {
+                const hasLink = Boolean(item.href && item.href.trim() !== '');
+                const imageSrc = item.imageKey ? currentlyImageMap[item.imageKey] : undefined;
+                return (
+                  <article key={`${item.label}-${item.title}`} className="preview-currently-card">
+                    <p className="preview-currently-label">{item.label}</p>
+                    <div className="preview-currently-top">
+                      {imageSrc ? (
+                        <img
+                          className="preview-currently-image"
+                          src={imageSrc}
+                          alt={item.imageAlt ?? `${item.label} thumbnail`}
+                        />
+                      ) : (
+                        <div className="preview-currently-image preview-currently-image-placeholder" />
+                      )}
+                      <div className="preview-currently-meta">
+                        <h5 className="preview-currently-item-title">
+                          {hasLink ? (
+                            <a
+                              className="preview-currently-item-link"
+                              href={item.href}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {item.title}
+                            </a>
+                          ) : (
+                            item.title
+                          )}
+                        </h5>
+                        {item.subtitle ? (
+                          <p className="preview-currently-subtitle">{item.subtitle}</p>
+                        ) : null}
+                      </div>
+                    </div>
+                    <p className="preview-currently-description">{item.description}</p>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        </section>
       );
     }
 
