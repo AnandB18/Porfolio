@@ -14,6 +14,11 @@ export const ABOUT_LINES: string[] = [
   'Try: projects, experience, contact',
 ];
 
+export const PREVIEW_DEFAULT_NAME = 'Anand Bhat';
+export const PREVIEW_DEFAULT_ROLE = 'Computer Science Student at George Washington University';
+export const PREVIEW_DEFAULT_TAGLINE =
+  'Focused on systems, cybersecurity, and practical software engineering.';
+
 export const PROJECTS_HEADER = 'Projects:';
 export const PROJECTS_FOOTER = 'Project details panel wiring comes next.';
 export const EXPERIENCE_HEADER = 'Experience:';

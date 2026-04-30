@@ -1,14 +1,23 @@
 import { type KeyboardEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 import { COMMANDS } from './core/commands';
-import { ASCII_HEADER } from './core/data';
+import {
+  ASCII_HEADER,
+  PREVIEW_DEFAULT_NAME,
+  PREVIEW_DEFAULT_ROLE,
+  PREVIEW_DEFAULT_TAGLINE,
+} from './core/data';
 import { executeCommand } from './core/runner';
 import type { TerminalLine } from './core/types';
 import { useTerminalTyping } from './hooks/useTerminalTyping';
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/layout.css';
+import './styles/window.css';
 import './styles/terminal.css';
+import './styles/preview.css';
 import './styles/boot.css';
+
+type PreviewState = 'default' | 'help' | 'whoami' | 'about' | 'projects' | 'experience' | 'contact';
 
 function App() {
   const maxConcurrentTypingLines = 3;
@@ -22,6 +31,7 @@ function App() {
   ]);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [previewState, setPreviewState] = useState<PreviewState>('default');
   const outputRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [shouldAutoFollow, setShouldAutoFollow] = useState(true);
@@ -48,6 +58,7 @@ function App() {
   const runCommand = (raw: string) => {
     const trimmed = raw.trim();
     if (!trimmed) return;
+    const command = trimmed.toLowerCase();
 
     setCommandHistory((prev) => [...prev, trimmed]);
     setHistoryIndex(-1);
@@ -58,8 +69,14 @@ function App() {
 
     if (result.didClear) {
       clearTyping();
+      setPreviewState('default');
       return;
     }
+
+    if (Object.hasOwn(COMMANDS, command)) {
+      setPreviewState(command as PreviewState);
+    }
+
     const immediateCommandLines = result.lines.filter((line) => line.kind === 'command');
     const typedLines = result.lines.filter((line) => line.kind !== 'command');
 
@@ -67,6 +84,22 @@ function App() {
       setHistory((prev) => [...prev, ...immediateCommandLines]);
     }
     enqueueLines(typedLines);
+  };
+
+  const renderPreviewContent = () => {
+    if (previewState === 'default') {
+      return (
+        <div className="preview-default">
+          <div className="preview-default-content">
+            <h3 className="preview-name">{PREVIEW_DEFAULT_NAME}</h3>
+            <p className="preview-role">{PREVIEW_DEFAULT_ROLE}</p>
+            <p className="preview-tagline">{PREVIEW_DEFAULT_TAGLINE}</p>
+          </div>
+        </div>
+      );
+    }
+
+    return <p>Preview state: {previewState}</p>;
   };
 
   const submitCurrentInput = () => {
@@ -161,13 +194,13 @@ function App() {
 
   return (
     <main className="app-shell">
-      <section className="panel terminal-panel">
-        <div className="terminal-shell">
-          <div className="terminal-titlebar" aria-hidden="true">
-            <div className="terminal-tab">PowerShell</div>
+      <section className="panel window-panel terminal-panel">
+        <div className="window-shell">
+          <div className="window-titlebar" aria-hidden="true">
+            <div className="window-tab">PowerShell</div>
           </div>
 
-          <div className="terminal-screen">
+          <div className="window-body terminal-body">
             <div
               ref={outputRef}
               onScroll={handleOutputScroll}
@@ -213,10 +246,17 @@ function App() {
         </div>
       </section>
 
-      <aside className="panel preview-panel">
-        <h2>Preview</h2>
-        <p>No active view yet.</p>
-        <p>Try: <code>whoami</code>, <code>projects</code>, <code>experience</code></p>
+      <aside className="panel window-panel preview-panel">
+        <div className="window-shell">
+          <div className="window-titlebar" aria-hidden="true">
+            <div className="window-tab">Preview</div>
+          </div>
+          <div className="window-body preview-body">
+            <div className={`preview-output preview-output-${previewState}`}>
+              {renderPreviewContent()}
+            </div>
+          </div>
+        </div>
       </aside>
     </main>
   );
