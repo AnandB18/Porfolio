@@ -56,11 +56,25 @@ export const PROJECTS: Project[] = [
 
 export const EXPERIENCE: Experience[] = [
   {
-    id: 'software-intern',
-    role: 'Software Engineering Intern',
-    org: 'Your Company',
-    period: 'Summer 2025',
-    highlights: ['Built internal tools and shipped production-facing updates.'],
+    id: 'research-fellow',
+    role: 'Research Fellow ',
+    org: 'George Washington University',
+    period: 'May 2026 - Present',
+    highlights: ['Built security tools for detecting if drones are compromised.', 'Worked on a project to detect if a drone is compromised by analyzing the drone\'s behavior and data.'],
+  },
+  {
+    id: 'teaching-assistant-systems',
+    role: 'Intro to Systems Programming Teaching Assistant',
+    org: 'The George Washington University',
+    period: 'June 2025 - December 2025',
+    highlights: ['Taught students the basics of systems programming while also teaching basic C concepts and syntax.', 'Worked on a project to create a system programming language that is easy to learn and use.'],
+  },
+  {
+    id: 'teaching-assistant-ads',
+    role: 'Algorithms And Data Structures Teaching Assistant',
+    org: 'The George Washington University',
+    period: 'June 2024 - June 2025',
+    highlights: ['Taught students the basics of algorithsm and data structures using Java', 'Worked on a project to create a data structures and algorithms library that is easy to learn and use.'],
   },
 ];
 

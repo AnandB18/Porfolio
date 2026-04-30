@@ -4,6 +4,7 @@ import {
   ABOUT_PREVIEW,
   ASCII_HEADER,
   CURRENTLY_ITEMS,
+  EXPERIENCE,
   PREVIEW_DEFAULT_COMMANDS,
   PREVIEW_DEFAULT_NAME,
   PREVIEW_DEFAULT_ROLE,
@@ -219,6 +220,34 @@ function App() {
               })}
             </div>
           </section>
+        </section>
+      );
+    }
+
+    if (previewState === 'experience') {
+      return (
+        <section className="preview-experience" aria-label="Experience">
+          <h3 className="preview-experience-title">Experience</h3>
+          <div className="preview-experience-timeline">
+            {EXPERIENCE.map((item) => (
+              <article key={item.id} className="preview-experience-item">
+                <div className="preview-experience-card">
+                  <header className="preview-experience-head">
+                    <h4 className="preview-experience-role">{item.role}</h4>
+                    <p className="preview-experience-meta">
+                      <span className="preview-experience-org">{item.org}</span>
+                      <span className="preview-experience-period">{item.period}</span>
+                    </p>
+                  </header>
+                  <ul className="preview-experience-highlights">
+                    {item.highlights.map((point) => (
+                      <li key={`${item.id}-${point}`}>{point}</li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            ))}
+          </div>
         </section>
       );
     }
