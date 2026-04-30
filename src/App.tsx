@@ -17,7 +17,8 @@ import './styles/terminal.css';
 import './styles/preview.css';
 import './styles/boot.css';
 
-type PreviewState = 'default' | 'help' | 'whoami' | 'about' | 'projects' | 'experience' | 'contact';
+type PreviewState = 'default' | 'whoami' | 'about' | 'projects' | 'experience' | 'contact';
+type PreviewEffect = 'idle' | 'pulse' | 'spike';
 
 function App() {
   const maxConcurrentTypingLines = 3;
@@ -32,8 +33,10 @@ function App() {
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [previewState, setPreviewState] = useState<PreviewState>('default');
+  const [previewEffect, setPreviewEffect] = useState<PreviewEffect>('idle');
   const outputRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const previewEffectTimeoutRef = useRef<number | null>(null);
   const [shouldAutoFollow, setShouldAutoFollow] = useState(true);
   const commitTypedLines = useCallback((lines: TerminalLine[]) => {
     if (lines.length === 0) return;
@@ -70,11 +73,29 @@ function App() {
     if (result.didClear) {
       clearTyping();
       setPreviewState('default');
+      setPreviewEffect('idle');
       return;
     }
 
     if (Object.hasOwn(COMMANDS, command)) {
-      setPreviewState(command as PreviewState);
+      if (previewEffectTimeoutRef.current !== null) {
+        window.clearTimeout(previewEffectTimeoutRef.current);
+      }
+
+      if (command === 'help') {
+        setPreviewEffect('pulse');
+        previewEffectTimeoutRef.current = window.setTimeout(() => {
+          setPreviewEffect('idle');
+          previewEffectTimeoutRef.current = null;
+        }, 750);
+      } else {
+        setPreviewState(command as PreviewState);
+        setPreviewEffect('spike');
+        previewEffectTimeoutRef.current = window.setTimeout(() => {
+          setPreviewEffect('idle');
+          previewEffectTimeoutRef.current = null;
+        }, 1000);
+      }
     }
 
     const immediateCommandLines = result.lines.filter((line) => line.kind === 'command');
@@ -192,6 +213,14 @@ function App() {
     inputRef.current?.focus();
   }, [history, activeTypingLines]);
 
+  useEffect(() => {
+    return () => {
+      if (previewEffectTimeoutRef.current !== null) {
+        window.clearTimeout(previewEffectTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <main className="app-shell">
       <section className="panel window-panel terminal-panel">
@@ -252,7 +281,9 @@ function App() {
             <div className="window-tab">Preview</div>
           </div>
           <div className="window-body preview-body">
-            <div className={`preview-output preview-output-${previewState}`}>
+            <div
+              className={`preview-output preview-output-${previewState} preview-effect-${previewEffect}`}
+            >
               {renderPreviewContent()}
             </div>
           </div>

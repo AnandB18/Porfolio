@@ -12,8 +12,7 @@
   position: relative;
   min-height: 0;
   height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   padding-right: 0;
 }
 
@@ -37,6 +36,8 @@
       transparent 4px
     );
   pointer-events: none;
+  opacity: 0.78;
+  transition: opacity 220ms ease;
 }
 
 .preview-output-default::after {
@@ -47,6 +48,28 @@
   filter: blur(16px);
   animation: preview-glow-drift 18s ease-in-out infinite alternate;
   pointer-events: none;
+  opacity: 0.78;
+  transition: opacity 240ms ease, transform 260ms ease, filter 260ms ease;
+}
+
+.preview-effect-pulse.preview-output-default::after {
+  opacity: 0.95;
+  transform: translate(2.4%, 1.2%) scale(1.07);
+  filter: blur(17px) saturate(1.04);
+}
+
+.preview-effect-pulse.preview-output-default::before {
+  opacity: 0.84;
+}
+
+.preview-effect-spike.preview-output-default::before {
+  opacity: 0.94;
+}
+
+.preview-effect-spike.preview-output-default::after {
+  opacity: 1;
+  transform: translate(4%, 2%) scale(1.1);
+  filter: blur(18px);
 }
 
 .preview-default {
