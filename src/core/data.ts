@@ -37,17 +37,17 @@ export const ABOUT_PREVIEW = {
 };
 
 export const CURRENTLY_ITEMS: CurrentlyItem[] = [
-  { label: 'Reading', title: 'Red Rising', subtitle: 'By: Pierce Brown', description: 'I have started to read a chapter or two before I go to sleep.  Picked up this book recently and I am already struggling to put it down.  I will definetly read the 5 other books in this series after I finish this book.', imageKey: 'reading-image', imageAlt: 'Red Rising Book Cover' },
-  { label: 'Watching', title: 'Avatar: The Last Airbender (Live Action)', subtitle: 'Netflix Series', description: 'I got into animated films and shows this year and so I just finsihed rewatching the animated series.  Now I am looking forward to wathcing the live action sereis.', imageKey: 'watching-image', imageAlt: 'Avatar: The Last Airbender (Live Action) Poster' },
+  { label: 'Reading', title: 'Red Rising', subtitle: 'By: Pierce Brown', description: 'A great sci-fi/fantasy dystopian novel that has been making it difficult to put down. I will definetly read the 5 other books in this series after I finish this book.', imageKey: 'reading-image', imageAlt: 'Red Rising Book Cover' },
+  { label: 'Watching', title: 'Avatar: The Last Airbender (Live Action)', subtitle: 'Netflix Series', description: 'I got into animated films and shows this year and so I just finsihed rewatching the animated series.  Now I am looking forward to watching the live action sereis.', imageKey: 'watching-image', imageAlt: 'Avatar: The Last Airbender (Live Action) Poster' },
   { label: 'Learning', title: 'TUI/CLI Development', description: 'I have been learning about TUI/CLI app development.  I have  started by trying to implement my portfolio as a TUI/CLI app.', imageKey: 'learning-image', imageAlt: 'TUI/CLI Development' },
   { label: 'Building', title: 'Terminal Style Portfolio', description: 'I have been working on my portfolio for the past few weeks.  I have been learning about TUI/CLI app development.  I have  started by trying to implement my portfolio as a TUI/CLI app.', imageKey: 'building-image', imageAlt: 'Terminal Style Portfolio' },
   { label: 'Latest Commit', title: '...', subtitle: '...', description: '...', href: '...' },
 ];
 
 export const SOCIAL_LINKS = [
-  { label: 'LinkedIn', href: 'https://...', icon: 'linkedin' },
-  { label: 'GitHub', href: 'https://...', icon: 'github' },
-  { label: 'Email', href: 'mailto:...' , icon: 'mail' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/abhat21/', icon: 'linkedin' },
+  { label: 'GitHub', href: 'https://github.com/AnandB18', icon: 'github' },
+  { label: 'Email', href: 'mailto: anvenbha1@gmail.com' , icon: 'mail' },
 ];
 
 
@@ -129,9 +129,8 @@ export const EDUCATION: Education[] = [
 ];
 
 export const CONTACT: ContactLink[] = [
-  { label: 'Email', value: 'your.email@example.com' },
-  { label: 'GitHub', value: 'github.com/your-handle' },
-  { label: 'LinkedIn', value: 'linkedin.com/in/your-handle' },
-  { label: 'Resume', value: 'https://example.com/resume.pdf' },
+  { label: 'Email', value: 'anvenbha1@gmail.com' },
+  { label: 'GitHub', value: 'github.com/AnandB18' },
+  { label: 'LinkedIn', value: 'linkedin.com/in/abhat21/' },
 ];
 

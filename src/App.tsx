@@ -1,4 +1,7 @@
 import { type KeyboardEventHandler, useCallback, useEffect, useRef, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSquareGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { COMMANDS } from './core/commands';
 import {
   ABOUT_PREVIEW,
@@ -171,6 +174,13 @@ function App() {
         );
       });
 
+    const getSocialIcon = (iconKey?: string) => {
+      if (iconKey === 'linkedin') return faLinkedin;
+      if (iconKey === 'github') return faSquareGithub;
+      if (iconKey === 'mail') return faEnvelope;
+      return null;
+    };
+
     if (previewState === 'default') {
       return (
         <div className="preview-default">
@@ -196,15 +206,19 @@ function App() {
               <div className="preview-about-links" aria-label="Connect links">
                 {SOCIAL_LINKS.map((item) => {
                   const isExternal = item.href.startsWith('http');
+                  const icon = getSocialIcon(item.icon);
                   return (
                     <a
                       key={item.label}
                       className="preview-about-link"
                       href={item.href}
+                      aria-label={item.label}
                       target={isExternal ? '_blank' : undefined}
                       rel={isExternal ? 'noreferrer' : undefined}
                     >
-                      {item.label}
+                      {icon ? (
+                        <FontAwesomeIcon icon={icon} className="preview-about-link-icon" aria-hidden="true" />
+                      ) : null}
                     </a>
                   );
                 })}
@@ -262,10 +276,10 @@ function App() {
                             {item.subtitle}
                           </p>
                         ) : null}
-                        <p className="preview-currently-description preview-currently-featured-description">
-                          {item.description}
-                        </p>
                       </div>
+                      <p className="preview-currently-description preview-currently-featured-description">
+                        {item.description}
+                      </p>
                     </article>
                   );
                 }
