@@ -50,11 +50,6 @@
   animation: preview-glow-drift 8s ease-in-out infinite alternate, preview-glow-breathe 3.6s ease-in-out infinite;
 }
 
-/* .preview-output-whoami,
-.preview-output-about {
-  overflow-y: auto;
-} */
-
 .preview-effect-pulse.preview-output::after {
   opacity: 0.95;
   transform: translate(2.4%, 1.2%) scale(1.07);
@@ -142,7 +137,7 @@
   align-content: start;
   align-items: stretch;
   min-height: 100%;
-  padding: 1.2rem;
+  padding: clamp(0.82rem, 2vw, 1.2rem);
   overflow: hidden;
 }
 
@@ -153,7 +148,7 @@
   flex-direction: column;
   gap: 0.8rem;
   height: 100%;
-  padding: 1.2rem;
+  padding: clamp(0.82rem, 2vw, 1.2rem);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -277,7 +272,7 @@
   display: grid;
   place-items: center;
   min-height: 100%;
-  padding: 1.2rem;
+  padding: clamp(0.82rem, 2vw, 1.2rem);
   overflow: hidden;
 }
 
@@ -340,7 +335,7 @@
   flex-direction: column;
   gap: 0.85rem;
   height: 100%;
-  padding: 1.2rem;
+  padding: clamp(0.82rem, 2vw, 1.2rem);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -848,12 +843,31 @@
 }
 
 @media (max-width: 900px) {
+  .preview-panel .window-shell {
+    min-height: min(300px, 48dvh);
+  }
+
+  .preview-output {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .preview-about {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
   .preview-about-top {
     grid-template-columns: 1fr;
+    gap: 0.9rem;
   }
 
   .preview-currently-grid {
     grid-template-columns: 1fr;
+  }
+
+  .preview-currently-card {
+    padding: 0.38rem 0.64rem 0.5rem;
   }
 
   .preview-currently-featured-subtitle {
@@ -862,5 +876,106 @@
 
   .preview-projects-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .preview-panel .window-shell {
+    min-height: min(280px, 48dvh);
+  }
+
+  .preview-default {
+    padding: 0.85rem;
+  }
+
+  .preview-name {
+    font-size: clamp(1.4rem, 7vw, 2.2rem);
+  }
+
+  .preview-role {
+    font-size: 0.9rem;
+  }
+
+  .preview-tagline {
+    font-size: 0.85rem;
+  }
+
+  .preview-about-title,
+  .preview-projects-title,
+  .preview-experience-title {
+    font-size: clamp(1.2rem, 5.2vw, 1.7rem);
+  }
+
+  .preview-about-text p {
+    font-size: 0.88rem;
+    line-height: 1.38;
+  }
+
+  .preview-currently-card:not(.preview-currently-card-featured) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0;
+  }
+
+  .preview-currently-card:not(.preview-currently-card-featured) .preview-currently-label {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    margin: 0 0 0.26rem;
+  }
+
+  .preview-currently-card:not(.preview-currently-card-featured) .preview-currently-top {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    min-height: 52px;
+    height: auto;
+  }
+
+  .preview-currently-card:not(.preview-currently-card-featured) .preview-currently-description {
+    margin: 0.44rem 0 0;
+  }
+
+  .preview-currently-image {
+    width: 44px;
+    height: 52px;
+  }
+}
+
+@media (max-width: 480px) {
+  .preview-panel .window-shell {
+    min-height: min(250px, 48dvh);
+  }
+
+  .preview-default {
+    padding: 0.7rem;
+  }
+
+  .preview-commands {
+    font-size: 0.78rem;
+  }
+
+  .preview-currently-title {
+    margin: 0 0 0.48rem;
+    font-size: 0.76rem;
+  }
+
+  .preview-currently-card {
+    padding: 0.34rem 0.54rem 0.46rem;
+  }
+
+  .preview-currently-item-title {
+    font-size: 0.82rem;
+  }
+
+  .preview-currently-subtitle {
+    font-size: 0.66rem;
+  }
+
+  .preview-currently-card:not(.preview-currently-card-featured) .preview-currently-description,
+  .preview-currently-card-featured .preview-currently-description {
+    font-size: 0.58rem;
   }
 }
