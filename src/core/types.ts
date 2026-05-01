@@ -12,6 +12,12 @@ export type CommandDefinition = {
 export type Project = {
   id: string;
   title: string;
+  summary?: string;
+  stack?: string[];
+  imageKey?: string;
+  imageAlt?: string;
+  repoUrl?: string;
+  liveUrl?: string;
 };
 
 export type Experience = {
@@ -20,6 +26,18 @@ export type Experience = {
   org: string;
   period: string;
   highlights: string[];
+};
+
+export type Education = {
+  id: string;
+  school: string;
+  program: string;
+  period: string;
+  location?: string;
+  gpa?: string;
+  honors?: string[];
+  coursework?: string[];
+  highlights?: string[];
 };
 
 export type SkillGroup = {
@@ -48,4 +66,14 @@ export type TerminalLineKind =
 export type TerminalLine = {
   text: string;
   kind: TerminalLineKind;
+};
+
+export type CurrentlyItem = {
+  label: string;
+  title: string;
+  subtitle?: string;
+  description: string;
+  imageKey?: string;
+  imageAlt?: string;
+  href?: string;
 };

@@ -1,12 +1,14 @@
 import {
   ABOUT_LINES,
   CONTACT,
-  CONTACT_HEADER,
+  EDUCATION,
+  EDUCATION_HEADER,
   EXPERIENCE,
   EXPERIENCE_HEADER,
   PROJECTS,
   PROJECTS_FOOTER,
   PROJECTS_HEADER,
+  RESUME_HEADER,
 } from './data';
 import type { CommandDefinition } from './types';
 
@@ -52,9 +54,27 @@ export const COMMANDS: Record<string, CommandDefinition> = {
       ]),
     ],
   },
-  contact: {
-    description: 'Show contact links',
-    run: () => [CONTACT_HEADER, ...CONTACT.map((item) => `- ${item.label}: ${item.value}`)],
+  education: {
+    description: 'Show education background',
+    run: () => [
+      EDUCATION_HEADER,
+      ...EDUCATION.flatMap((item) => [
+        `- ${item.program} | ${item.school} | ${item.period}`,
+        ...(item.location ? [`  Location: ${item.location}`] : []),
+        ...(item.gpa ? [`  GPA: ${item.gpa}`] : []),
+        ...(item.honors?.length ? [`  Honors: ${item.honors.join(', ')}`] : []),
+        ...(item.coursework?.length ? [`  Coursework: ${item.coursework.join(', ')}`] : []),
+        ...(item.highlights ?? []).map((point) => `  ${point}`),
+      ]),
+    ],
+  },
+  resume: {
+    description: 'Open my resume',
+    run: () => {
+      const resumeItem = CONTACT.find((item) => item.label.toLowerCase() === 'resume');
+      const resumeValue = resumeItem?.value ?? 'Resume link coming soon.';
+      return [RESUME_HEADER, `- ${resumeValue}`];
+    },
   },
 };
 
