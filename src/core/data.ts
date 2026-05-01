@@ -23,7 +23,7 @@ export const PROJECTS_HEADER = 'Projects:';
 export const PROJECTS_FOOTER = 'Project details panel wiring comes next.';
 export const EXPERIENCE_HEADER = 'Experience:';
 export const EDUCATION_HEADER = 'Education:';
-export const CONTACT_HEADER = 'Contact:';
+export const RESUME_HEADER = 'Resume:';
 
 export const ABOUT_PREVIEW = {
   imageAlt: 'Photo of Anand Bhat',
@@ -51,9 +51,34 @@ export const SOCIAL_LINKS = [
 
 
 export const PROJECTS: Project[] = [
-  { id: 'portfolio', title: 'Terminal Portfolio' },
-  { id: 'shell', title: 'Mini Shell' },
-  { id: 'gcal-planner', title: 'Task Manager App' },
+  {
+    id: 'portfolio',
+    title: 'Terminal Portfolio',
+    summary: 'Interactive terminal-inspired portfolio with command routing and animated preview panels.',
+    stack: ['React', 'TypeScript', 'CSS'],
+    imageKey: 'project-portfolio',
+    imageAlt: 'Terminal Portfolio preview image',
+    repoUrl: 'https://github.com/your-handle/terminal-portfolio',
+  },
+  {
+    id: 'shell',
+    title: 'Mini Shell',
+    summary: 'Custom command-line shell with built-in commands, execution flow, and process handling.',
+    stack: ['C', 'Linux', 'Systems Programming'],
+    imageKey: 'project-shell',
+    imageAlt: 'Mini shell project preview image',
+    repoUrl: 'https://github.com/your-handle/mini-shell',
+  },
+  {
+    id: 'gcal-planner',
+    title: 'Task Manager App',
+    summary: 'Planner app for organizing tasks and integrating schedules with a clear workflow.',
+    stack: ['React', 'Firebase', 'API'],
+    imageKey: 'project-planner',
+    imageAlt: 'Task manager app preview image',
+    repoUrl: 'https://github.com/your-handle/task-manager-app',
+    liveUrl: 'https://example.com',
+  },
 ];
 
 export const EXPERIENCE: Experience[] = [
@@ -106,5 +131,6 @@ export const CONTACT: ContactLink[] = [
   { label: 'Email', value: 'your.email@example.com' },
   { label: 'GitHub', value: 'github.com/your-handle' },
   { label: 'LinkedIn', value: 'linkedin.com/in/your-handle' },
+  { label: 'Resume', value: 'https://example.com/resume.pdf' },
 ];
 

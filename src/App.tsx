@@ -3,9 +3,11 @@ import { COMMANDS } from './core/commands';
 import {
   ABOUT_PREVIEW,
   ASCII_HEADER,
+  CONTACT,
   CURRENTLY_ITEMS,
   EDUCATION,
   EXPERIENCE,
+  PROJECTS,
   PREVIEW_DEFAULT_COMMANDS,
   PREVIEW_DEFAULT_NAME,
   PREVIEW_DEFAULT_ROLE,
@@ -33,7 +35,7 @@ type PreviewState =
   | 'projects'
   | 'experience'
   | 'education'
-  | 'contact';
+  | 'resume';
 type PreviewEffect = 'idle' | 'pulse' | 'spike';
 
 function App() {
@@ -67,6 +69,11 @@ function App() {
   const currentlyImageMap: Record<string, string> = {
     'reading-image': redRisingPhoto,
     'watching-image': avatarPhoto,
+  };
+  const projectImageMap: Record<string, string> = {
+    'project-portfolio': anandImage,
+    'project-shell': avatarPhoto,
+    'project-planner': redRisingPhoto,
   };
 
   const renderPrompt = () => (
@@ -128,6 +135,16 @@ function App() {
   };
 
   const renderPreviewContent = () => {
+    const getContactHref = (label: string, value: string) => {
+      if (value.startsWith('http') || value.startsWith('mailto:')) return value;
+      if (label.toLowerCase() === 'email') return `mailto:${value}`;
+      if (value.startsWith('github.com') || value.startsWith('linkedin.com')) return `https://${value}`;
+      return value;
+    };
+
+    const resumeItem = CONTACT.find((item) => item.label.toLowerCase() === 'resume');
+    const resumeHref = resumeItem ? getContactHref(resumeItem.label, resumeItem.value) : '#';
+
     const renderCommandHint = (line: string) =>
       line.split(/(\s+)/).map((token, idx) => {
         const normalized = token.toLowerCase().replace(/[^a-z-]/g, '');
@@ -232,6 +249,61 @@ function App() {
       );
     }
 
+    if (previewState === 'projects') {
+      return (
+        <section className="preview-projects" aria-label="Projects">
+          <h3 className="preview-projects-title">Projects</h3>
+          <div className="preview-projects-grid">
+            {PROJECTS.map((project) => {
+              const imageSrc = project.imageKey ? projectImageMap[project.imageKey] : undefined;
+              return (
+                <article key={project.id} className="preview-project-card">
+                  <div className="preview-project-image-wrap">
+                    {imageSrc ? (
+                      <img
+                        className="preview-project-image"
+                        src={imageSrc}
+                        alt={project.imageAlt ?? `${project.title} preview`}
+                      />
+                    ) : (
+                      <div className="preview-project-image preview-project-image-placeholder" />
+                    )}
+                  </div>
+                  <div className="preview-project-content">
+                    <h4 className="preview-project-title">{project.title}</h4>
+                    <p className="preview-project-summary">
+                      {project.summary ?? 'Project details coming soon.'}
+                    </p>
+                    {project.stack?.length ? (
+                      <div className="preview-project-tags" aria-label={`${project.title} stack`}>
+                        {project.stack.map((tag) => (
+                          <span key={`${project.id}-${tag}`} className="preview-project-tag">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
+                    <div className="preview-project-links">
+                      {project.repoUrl ? (
+                        <a className="preview-project-link" href={project.repoUrl} target="_blank" rel="noreferrer">
+                          GitHub
+                        </a>
+                      ) : null}
+                      {project.liveUrl ? (
+                        <a className="preview-project-link" href={project.liveUrl} target="_blank" rel="noreferrer">
+                          Live
+                        </a>
+                      ) : null}
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      );
+    }
+
     if (previewState === 'experience') {
       return (
         <section className="preview-experience" aria-label="Experience">
@@ -289,6 +361,28 @@ function App() {
               </article>
             ))}
           </div>
+        </section>
+      );
+    }
+
+    if (previewState === 'resume') {
+      return (
+        <section className="preview-resume" aria-label="Resume">
+          <article className="preview-resume-card">
+            <p className="preview-resume-label">Resume</p>
+            <h3 className="preview-resume-title">View My Resume</h3>
+            <p className="preview-resume-subtitle">
+              Download the latest version for full experience, projects, and education details.
+            </p>
+            <a
+              className="preview-resume-link"
+              href={resumeHref}
+              target={resumeHref.startsWith('http') ? '_blank' : undefined}
+              rel={resumeHref.startsWith('http') ? 'noreferrer' : undefined}
+            >
+              Open Resume
+            </a>
+          </article>
         </section>
       );
     }

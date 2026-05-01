@@ -12,6 +12,12 @@ export type CommandDefinition = {
 export type Project = {
   id: string;
   title: string;
+  summary?: string;
+  stack?: string[];
+  imageKey?: string;
+  imageAlt?: string;
+  repoUrl?: string;
+  liveUrl?: string;
 };
 
 export type Experience = {

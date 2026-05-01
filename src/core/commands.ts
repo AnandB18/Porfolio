@@ -1,7 +1,6 @@
 import {
   ABOUT_LINES,
   CONTACT,
-  CONTACT_HEADER,
   EDUCATION,
   EDUCATION_HEADER,
   EXPERIENCE,
@@ -9,6 +8,7 @@ import {
   PROJECTS,
   PROJECTS_FOOTER,
   PROJECTS_HEADER,
+  RESUME_HEADER,
 } from './data';
 import type { CommandDefinition } from './types';
 
@@ -68,9 +68,13 @@ export const COMMANDS: Record<string, CommandDefinition> = {
       ]),
     ],
   },
-  contact: {
-    description: 'Show contact links',
-    run: () => [CONTACT_HEADER, ...CONTACT.map((item) => `- ${item.label}: ${item.value}`)],
+  resume: {
+    description: 'Open my resume',
+    run: () => {
+      const resumeItem = CONTACT.find((item) => item.label.toLowerCase() === 'resume');
+      const resumeValue = resumeItem?.value ?? 'Resume link coming soon.';
+      return [RESUME_HEADER, `- ${resumeValue}`];
+    },
   },
 };
 
