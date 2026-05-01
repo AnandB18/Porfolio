@@ -16,6 +16,8 @@ import {
 } from './core/data';
 import anandImage from './assets/Profile_Pic.jpg';
 import avatarPhoto from './assets/Avatar_Photo.png';
+import cliImage from './assets/CLI_Image.png';
+import portfolioImage from './assets/Porfolio.png';
 import redRisingPhoto from './assets/Red_Rising_Photo.jpg';
 import { executeCommand } from './core/runner';
 import type { TerminalLine } from './core/types';
@@ -36,7 +38,7 @@ type PreviewState =
   | 'experience'
   | 'education'
   | 'resume';
-type PreviewEffect = 'idle' | 'pulse' | 'spike';
+type PreviewEffect = 'idle' | 'pulse' | 'spike' | 'error';
 
 function App() {
   const maxConcurrentTypingLines = 3;
@@ -69,10 +71,12 @@ function App() {
   const currentlyImageMap: Record<string, string> = {
     'reading-image': redRisingPhoto,
     'watching-image': avatarPhoto,
+    'learning-image': cliImage,
+    'building-image': portfolioImage,
   };
   const projectImageMap: Record<string, string> = {
-    'project-portfolio': anandImage,
-    'project-shell': avatarPhoto,
+    'project-portfolio': portfolioImage,
+    'project-shell': cliImage,
     'project-planner': redRisingPhoto,
   };
 
@@ -104,11 +108,21 @@ function App() {
       return;
     }
 
-    if (Object.hasOwn(COMMANDS, command)) {
-      if (previewEffectTimeoutRef.current !== null) {
-        window.clearTimeout(previewEffectTimeoutRef.current);
-      }
+    if (previewEffectTimeoutRef.current !== null) {
+      window.clearTimeout(previewEffectTimeoutRef.current);
+      previewEffectTimeoutRef.current = null;
+    }
 
+    const hasErrorLine = result.lines.some((line) => line.kind === 'error');
+    if (hasErrorLine) {
+      setPreviewEffect('error');
+      previewEffectTimeoutRef.current = window.setTimeout(() => {
+        setPreviewEffect('idle');
+        previewEffectTimeoutRef.current = null;
+      }, 620);
+    }
+
+    if (Object.hasOwn(COMMANDS, command)) {
       if (command === 'help') {
         setPreviewEffect('pulse');
         previewEffectTimeoutRef.current = window.setTimeout(() => {
@@ -206,6 +220,56 @@ function App() {
               {CURRENTLY_ITEMS.map((item) => {
                 const hasLink = Boolean(item.href && item.href.trim() !== '');
                 const imageSrc = item.imageKey ? currentlyImageMap[item.imageKey] : undefined;
+                const isFeaturedCommit = item.label.toLowerCase() === 'latest commit';
+
+                if (isFeaturedCommit) {
+                  return (
+                    <article
+                      key={`${item.label}-${item.title}`}
+                      className="preview-currently-card preview-currently-card-featured"
+                    >
+                      <p className="preview-currently-label preview-currently-featured-label">
+                        {item.label}
+                      </p>
+                      <div className="preview-currently-featured-image-wrap">
+                        {imageSrc ? (
+                          <img
+                            className="preview-currently-image preview-currently-featured-image"
+                            src={imageSrc}
+                            alt={item.imageAlt ?? `${item.label} thumbnail`}
+                          />
+                        ) : (
+                          <div className="preview-currently-image preview-currently-image-placeholder" />
+                        )}
+                      </div>
+                      <div className="preview-currently-featured-content">
+                        <h5 className="preview-currently-item-title">
+                          {hasLink ? (
+                            <a
+                              className="preview-currently-item-link"
+                              href={item.href}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {item.title}
+                            </a>
+                          ) : (
+                            item.title
+                          )}
+                        </h5>
+                        {item.subtitle ? (
+                          <p className="preview-currently-subtitle preview-currently-featured-subtitle">
+                            {item.subtitle}
+                          </p>
+                        ) : null}
+                        <p className="preview-currently-description preview-currently-featured-description">
+                          {item.description}
+                        </p>
+                      </div>
+                    </article>
+                  );
+                }
+
                 return (
                   <article key={`${item.label}-${item.title}`} className="preview-currently-card">
                     <p className="preview-currently-label">{item.label}</p>
