@@ -1,7 +1,7 @@
 import { type KeyboardEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { faCodeCommit, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { COMMANDS } from './core/commands';
 import {
   ABOUT_PREVIEW,
@@ -245,49 +245,6 @@ function App() {
                 const href = getExternalHref(item.href);
                 const hasLink = Boolean(href);
                 const imageSrc = item.imageKey ? currentlyImageMap[item.imageKey] : undefined;
-                const isFeaturedCommit = item.label.toLowerCase() === 'latest commit';
-
-                if (isFeaturedCommit) {
-                  return (
-                    <article
-                      key={`${item.label}-${item.title}`}
-                      className="preview-currently-card preview-currently-card-featured"
-                    >
-                      <p className="preview-currently-label preview-currently-featured-label">
-                        <FontAwesomeIcon
-                          icon={faCodeCommit}
-                          className="preview-currently-featured-label-icon"
-                          aria-hidden="true"
-                        />
-                        {item.label}
-                      </p>
-                      <div className="preview-currently-featured-content">
-                        <h5 className="preview-currently-item-title">
-                          {hasLink ? (
-                            <a
-                              className="preview-currently-item-link"
-                              href={href ?? undefined}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              {item.title}
-                            </a>
-                          ) : (
-                            item.title
-                          )}
-                        </h5>
-                        {item.subtitle ? (
-                          <p className="preview-currently-subtitle preview-currently-featured-subtitle">
-                            {item.subtitle}
-                          </p>
-                        ) : null}
-                      </div>
-                      <p className="preview-currently-description preview-currently-featured-description">
-                        {item.description}
-                      </p>
-                    </article>
-                  );
-                }
 
                 return (
                   <article key={`${item.label}-${item.title}`} className="preview-currently-card">
