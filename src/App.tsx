@@ -1,7 +1,7 @@
 import { type KeyboardEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faCodeCommit, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { COMMANDS } from './core/commands';
 import {
   ABOUT_PREVIEW,
@@ -158,6 +158,16 @@ function App() {
       if (value.startsWith('github.com') || value.startsWith('linkedin.com')) return `https://${value}`;
       return value;
     };
+    const getExternalHref = (value?: string) => {
+      if (!value) return null;
+      const normalized = value.trim();
+      if (!normalized || normalized === '...') return null;
+      if (normalized.startsWith('http://') || normalized.startsWith('https://') || normalized.startsWith('mailto:')) {
+        return normalized;
+      }
+      if (normalized.startsWith('github.com') || normalized.startsWith('linkedin.com')) return `https://${normalized}`;
+      return null;
+    };
 
     const resumeItem = CONTACT.find((item) => item.label.toLowerCase() === 'resume');
     const resumeHref = resumeItem ? getContactHref(resumeItem.label, resumeItem.value) : '#';
@@ -232,7 +242,8 @@ function App() {
             <h4 className="preview-currently-title">Currently</h4>
             <div className="preview-currently-grid">
               {CURRENTLY_ITEMS.map((item) => {
-                const hasLink = Boolean(item.href && item.href.trim() !== '');
+                const href = getExternalHref(item.href);
+                const hasLink = Boolean(href);
                 const imageSrc = item.imageKey ? currentlyImageMap[item.imageKey] : undefined;
                 const isFeaturedCommit = item.label.toLowerCase() === 'latest commit';
 
@@ -243,25 +254,19 @@ function App() {
                       className="preview-currently-card preview-currently-card-featured"
                     >
                       <p className="preview-currently-label preview-currently-featured-label">
+                        <FontAwesomeIcon
+                          icon={faCodeCommit}
+                          className="preview-currently-featured-label-icon"
+                          aria-hidden="true"
+                        />
                         {item.label}
                       </p>
-                      <div className="preview-currently-featured-image-wrap">
-                        {imageSrc ? (
-                          <img
-                            className="preview-currently-image preview-currently-featured-image"
-                            src={imageSrc}
-                            alt={item.imageAlt ?? `${item.label} thumbnail`}
-                          />
-                        ) : (
-                          <div className="preview-currently-image preview-currently-image-placeholder" />
-                        )}
-                      </div>
                       <div className="preview-currently-featured-content">
                         <h5 className="preview-currently-item-title">
                           {hasLink ? (
                             <a
                               className="preview-currently-item-link"
-                              href={item.href}
+                              href={href ?? undefined}
                               target="_blank"
                               rel="noreferrer"
                             >
@@ -302,7 +307,7 @@ function App() {
                           {hasLink ? (
                             <a
                               className="preview-currently-item-link"
-                              href={item.href}
+                              href={href ?? undefined}
                               target="_blank"
                               rel="noreferrer"
                             >
@@ -568,7 +573,7 @@ function App() {
 
   return (
     <main className="app-shell">
-      <section className="panel window-panel terminal-panel">
+      <section className="window-panel terminal-panel">
         <div className="window-shell">
           <div className="window-titlebar" aria-hidden="true">
             <div className="window-tab">PowerShell</div>
@@ -620,7 +625,7 @@ function App() {
         </div>
       </section>
 
-      <aside className="panel window-panel preview-panel">
+      <aside className="window-panel preview-panel">
         <div className="window-shell">
           <div className="window-titlebar" aria-hidden="true">
             <div className="window-tab">Preview</div>
