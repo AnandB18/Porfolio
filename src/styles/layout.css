@@ -28,6 +28,14 @@
     gap: 0.58rem;
     padding: 0.5rem;
   }
+
+  .preview-panel {
+    grid-row: 1;
+  }
+
+  .terminal-panel {
+    grid-row: 2;
+  }
 }
 
 @media (max-width: 480px) {

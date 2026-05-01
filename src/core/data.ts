@@ -41,7 +41,6 @@ export const CURRENTLY_ITEMS: CurrentlyItem[] = [
   { label: 'Watching', title: 'Avatar: The Last Airbender (Live Action)', subtitle: 'Netflix Series', description: 'I got into animated films and shows this year and so I just finsihed rewatching the animated series.  Now I am looking forward to watching the live action sereis.', imageKey: 'watching-image', imageAlt: 'Avatar: The Last Airbender (Live Action) Poster' },
   { label: 'Learning', title: 'TUI/CLI Development', description: 'I have been learning about TUI/CLI app development.  I have  started by trying to implement my portfolio as a TUI/CLI app.', imageKey: 'learning-image', imageAlt: 'TUI/CLI Development' },
   { label: 'Building', title: 'Terminal Style Portfolio', description: 'I have been working on my portfolio for the past few weeks and I have begun to implement my portfolio as a TUI/CLI app.', imageKey: 'building-image', imageAlt: 'Terminal Style Portfolio' },
-  { label: 'Latest Commit', title: '...', subtitle: '...', description: '...', href: '' },
 ];
 
 export const SOCIAL_LINKS = [
@@ -49,7 +48,6 @@ export const SOCIAL_LINKS = [
   { label: 'GitHub', href: 'https://github.com/AnandB18', icon: 'github' },
   { label: 'Email', href: 'mailto: anvenbha1@gmail.com' , icon: 'mail' },
 ];
-
 
 export const PROJECTS: Project[] = [
   {
@@ -128,7 +126,7 @@ export const EDUCATION: Education[] = [
   }
 ];
 
-export const CONTACT: ContactLink[] = [
+export const CONTACT: ContactLink[] = [ 
   { label: 'Email', value: 'anvenbha1@gmail.com' },
   { label: 'GitHub', value: 'github.com/AnandB18' },
   { label: 'LinkedIn', value: 'linkedin.com/in/abhat21/' },
