@@ -1,0 +1,91 @@
+{
+  "asciiHeader": [
+    "  ____             __  _____      ___      ",
+    " / __ \\____  _____/ /_/ __(_)____/ (_)___ _",
+    "/ /_/ / __ \\/ ___/ __/ /_/ / ___/ / / __ `/",
+    "/ ____/ /_/ / /  / /_/ __/ / /  / / / /_/ / ",
+    "/_/    \\____/_/   \\__/_/ /_/_/  /_/_/\\__,_/"
+  ],
+  "aboutLines": [
+    "I am Anand...",
+    "This portfolio is a terminal-inspired interface.",
+    "Try: projects, experience, contact"
+  ],
+  "preview": {
+    "name": "Anand Bhat",
+    "role": "Computer Science Student @ George Washington University",
+    "tagline": "Focused on systems, cybersecurity, and practical software engineering."
+  },
+  "projects": [
+    {
+      "id": "portfolio",
+      "title": "Terminal Portfolio",
+      "summary": "Interactive terminal-inspired portfolio with command routing and animated preview panels.",
+      "stack": [
+        "React",
+        "TypeScript",
+        "CSS"
+      ]
+    },
+    {
+      "id": "shell",
+      "title": "Mini Shell",
+      "summary": "Custom command-line shell with built-in commands, execution flow, and process handling.",
+      "stack": [
+        "C",
+        "Linux",
+        "Systems Programming"
+      ]
+    },
+    {
+      "id": "gcal-planner",
+      "title": "Task Manager App",
+      "summary": "Planner app for organizing tasks and integrating schedules with a clear workflow.",
+      "stack": [
+        "React",
+        "Firebase",
+        "API"
+      ]
+    }
+  ],
+  "experienceLines": [
+    "Research Fellow  | The George Washington University | May 2026 - Present",
+    "  Built security tools for detecting if drones are compromised.",
+    "  Worked on a project to detect if a drone is compromised by analyzing the drone's behavior and data.",
+    "Intro to Systems Programming Teaching Assistant | The George Washington University | June 2025 - December 2025",
+    "  Taught students the basics of systems programming while also teaching basic C concepts and syntax.",
+    "  Worked on a project to create a system programming language that is easy to learn and use.",
+    "Algorithms And Data Structures Teaching Assistant | The George Washington University | June 2024 - June 2025",
+    "  Taught students the basics of algorithsm and data structures using Java",
+    "  Worked on a project to create a data structures and algorithms library that is easy to learn and use."
+  ],
+  "educationLines": [
+    "Bachelor of Science in Computer Science | The George Washington University | expected graduation: May 2027",
+    "  Location: Washington, DC",
+    "  GPA: 3.8",
+    "  Honors: Dean's List, President's List",
+    "  Coursework: Data Structures, Algorithms, Operating Systems, Computer Architecture, Computer Networks, Database Systems, Software Engineering",
+    "  some highlights....",
+    "  some more highlishts...",
+    "  some more highlights...",
+    "Study Abroad | University College Dublin | January 2026 - May 2026",
+    "  Location: Dublin, Ireland",
+    "  some highlights....",
+    "  some more highlishts...",
+    "  some more highlights..."
+  ],
+  "contacts": [
+    {
+      "label": "Email",
+      "value": "anvenbha1@gmail.com"
+    },
+    {
+      "label": "GitHub",
+      "value": "github.com/AnandB18"
+    },
+    {
+      "label": "LinkedIn",
+      "value": "linkedin.com/in/abhat21/"
+    }
+  ]
+}

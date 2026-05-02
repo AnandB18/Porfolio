@@ -45,6 +45,24 @@ npm install
 npm run dev
 ```
 
+## Export Shared Data
+
+Use this whenever `src/core/data.ts` changes and you want the Go TUI updated.
+
+```bash
+npm run export:data
+```
+
+## TUI (Go) Preview
+
+A standalone terminal UI scaffold is available in `tui/`.
+
+```bash
+npm run export:data
+cd tui
+go run ./cmd/portfolio
+```
+
 ## Architecture Notes
 
 - Logic has been extracted from `App.tsx` into `src/core/*`.
@@ -60,3 +78,4 @@ This makes it easier to reuse command logic for a future CLI/TUI interface.
 - `IMPLEMENTATION_PLAN.md` - phased roadmap and deferred items
 - `docs/ARCHITECTURE.md` - command flow and module responsibilities
 - `docs/COMMANDS.md` - command reference and extension guide
+- `docs/UI_CONSTITUTION.md` - shared visual and interaction guardrails
