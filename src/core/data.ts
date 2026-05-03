@@ -29,19 +29,19 @@ export const ABOUT_PREVIEW = {
   imageAlt: 'Photo of Anand Bhat',
   title: 'WHOAMI',
   paragraphs: [
-    'Hello, I am Anand Bhat!', 
+    'Hello, I am Anand!', 
     'I am currently pursuing a BS in Computer Science at The George Washington University',
     'Upcoming, I will be researching UAV anomaly detection at the GWU Security and Systems Lab under the guidence of Dr. Sibin Mohan.',
-    'Outside of school, I enjoy anything sports related, winding down with a good book, and learning new things from side projects.',
+    'Outside of school, I enjoy anything sports related, winding down with a good book, and exploring new tools and technologies through side projects.',
     'You can contact me via the links below. Thank you for visiting my portfolio!'
   ],
 };
 
 export const CURRENTLY_ITEMS: CurrentlyItem[] = [
-  { label: 'Reading', title: 'Red Rising', subtitle: 'By: Pierce Brown', description: 'A great sci-fi/fantasy dystopian novel that has been making it difficult to put down. I will definetly read the 5 other books in this series after I finish this book.', imageKey: 'reading-image', imageAlt: 'Red Rising Book Cover' },
-  { label: 'Watching', title: 'Avatar: The Last Airbender (Live Action)', subtitle: 'Netflix Series', description: 'I got into animated films and shows this year and so I just finsihed rewatching the animated series.  Now I am looking forward to watching the live action sereis.', imageKey: 'watching-image', imageAlt: 'Avatar: The Last Airbender (Live Action) Poster' },
   { label: 'Learning', title: 'TUI/CLI Development', description: 'I have been learning about TUI/CLI app development.  I have  started by trying to implement my portfolio as a TUI/CLI app.', imageKey: 'learning-image', imageAlt: 'TUI/CLI Development' },
   { label: 'Building', title: 'Terminal Style Portfolio', description: 'I have been working on my portfolio for the past few weeks and I have begun to implement my portfolio as a TUI/CLI app.', imageKey: 'building-image', imageAlt: 'Terminal Style Portfolio' },
+  { label: 'Reading', title: 'Red Rising', subtitle: 'By: Pierce Brown', description: 'A great sci-fi/fantasy dystopian novel that has been making it difficult to put down. I will definetly read the 5 other books in this series after I finish this book.', imageKey: 'reading-image', imageAlt: 'Red Rising Book Cover' },
+  { label: 'Watching', title: 'Avatar: The Last Airbender (Live Action)', subtitle: 'Netflix Series', description: 'I got into animated films and shows this year and so I just finsihed rewatching the animated series.  Now I am looking forward to watching the live action sereis.', imageKey: 'watching-image', imageAlt: 'Avatar: The Last Airbender (Live Action) Poster' },
 ];
 
 export const SOCIAL_LINKS = [
