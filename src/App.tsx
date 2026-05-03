@@ -83,6 +83,7 @@ function App() {
   ]);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [courseworkManualById, setCourseworkManualById] = useState<Record<string, boolean>>({});
   const [previewState, setPreviewState] = useState<PreviewState>('default');
   const [previewEffect, setPreviewEffect] = useState<PreviewEffect>('idle');
   const outputRef = useRef<HTMLDivElement | null>(null);
@@ -123,6 +124,19 @@ function App() {
       normalizePreviewScroll();
     });
   }, [normalizePreviewScroll]);
+
+  const handleCourseworkMouseEnter = useCallback((itemId: string) => {
+    setCourseworkManualById((prev) => ({ ...prev, [itemId]: true }));
+  }, []);
+
+  const handleCourseworkMouseLeave = useCallback((itemId: string) => {
+    setCourseworkManualById((prev) => {
+      if (!Object.hasOwn(prev, itemId)) return prev;
+      const next = { ...prev };
+      delete next[itemId];
+      return next;
+    });
+  }, []);
 
   useEffect(() => {
     const urls = new Set<string>([anandImage, ...Object.values(CURRENTLY_IMAGE_MAP), ...Object.values(PROJECT_IMAGE_MAP)]);
@@ -436,30 +450,100 @@ function App() {
 
     if (previewState === 'education') {
       return (
-        <section className="preview-experience" aria-label="Education">
-          <h3 className="preview-experience-title">Education</h3>
-          <div className="preview-experience-timeline">
+        <section className="preview-education" aria-label="Education">
+          <h3 className="preview-education-title">Education</h3>
+          <div className="preview-education-grid">
             {EDUCATION.map((item) => (
-              <article key={item.id} className="preview-experience-item">
-                <div className="preview-experience-card">
-                  <header className="preview-experience-head">
+              <article key={item.id} className="preview-education-card">
+                  <header className="preview-experience-head preview-education-head">
                     <h4 className="preview-experience-role">{item.school}</h4>
+                    {item.location ? <span className="preview-education-location">{item.location}</span> : null}
                     <p className="preview-experience-meta">
                       <span className="preview-experience-org">{item.program}</span>
                       <span className="preview-experience-period">{item.period}</span>
                     </p>
                   </header>
-                  <ul className="preview-experience-highlights">
-                    {item.location ? <li key={`${item.id}-location`}>Location: {item.location}</li> : null}
-                    {item.gpa ? <li key={`${item.id}-gpa`}>GPA: {item.gpa}</li> : null}
-                    {item.honors?.map((honor) => (
-                      <li key={`${item.id}-honor-${honor}`}>Honor: {honor}</li>
-                    ))}
-                    {item.highlights?.map((point) => (
-                      <li key={`${item.id}-highlight-${point}`}>{point}</li>
-                    ))}
-                  </ul>
-                </div>
+                  <div className="preview-education-details" aria-label={`${item.school} details`}>
+                    {item.gpaTechnical || item.gpaCumulative ? (
+                      <article className="preview-education-detail-tile">
+                        <span className="preview-education-detail-label">GPA</span>
+                        <div className="preview-education-gpa-rows">
+                          {item.gpaTechnical ? (
+                            <p className="preview-education-gpa-row">
+                              <span className="preview-education-gpa-sublabel">Technical GPA</span>
+                              <span className="preview-education-gpa-value">{item.gpaTechnical}</span>
+                            </p>
+                          ) : null}
+                          {item.gpaCumulative ? (
+                            <p className="preview-education-gpa-row">
+                              <span className="preview-education-gpa-sublabel">Cumulative GPA</span>
+                              <span className="preview-education-gpa-value">{item.gpaCumulative}</span>
+                            </p>
+                          ) : null}
+                        </div>
+                      </article>
+                    ) : item.gpa ? (
+                      <article className="preview-education-detail-tile">
+                        <span className="preview-education-detail-label">GPA</span>
+                        <span className="preview-education-detail-value">{item.gpa}</span>
+                      </article>
+                    ) : null}
+                    {item.honors?.length ? (
+                      <article className="preview-education-detail-tile">
+                        <span className="preview-education-detail-label">Honors</span>
+                        <ul className="preview-education-honors-list">
+                          {item.honors.map((honor) => (
+                            <li key={`${item.id}-honor-${honor}`} className="preview-education-honors-item">
+                              {honor}
+                            </li>
+                          ))}
+                        </ul>
+                      </article>
+                    ) : null}
+                    {item.coursework?.length ? (
+                      <article className="preview-education-detail-tile">
+                        <span className="preview-education-detail-label">Coursework</span>
+                        <div
+                          className={`preview-education-coursework-scroll${item.coursework.length > 4 ? ' is-auto-scrolling' : ''}${Object.hasOwn(courseworkManualById, item.id) ? ' is-manual-scroll' : ''}`}
+                          aria-label={`${item.school} coursework`}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.scrollLeft = 0;
+                            handleCourseworkMouseEnter(item.id);
+                          }}
+                          onMouseLeave={() => handleCourseworkMouseLeave(item.id)}
+                        >
+                          <div className="preview-education-coursework-track">
+                            {item.coursework.map((course) => (
+                              <span key={`${item.id}-course-${course}`} className="preview-education-coursework-chip">
+                                {course}
+                              </span>
+                            ))}
+                          </div>
+                          {item.coursework.length > 4 && !Object.hasOwn(courseworkManualById, item.id) ? (
+                            <div className="preview-education-coursework-track" aria-hidden="true">
+                              {item.coursework.map((course) => (
+                                <span key={`${item.id}-course-clone-${course}`} className="preview-education-coursework-chip">
+                                {course}
+                              </span>
+                            ))}
+                            </div>
+                          ) : null}
+                        </div>
+                      </article>
+                    ) : null}
+                    {item.highlights?.length ? (
+                      <article className="preview-education-detail-tile preview-education-detail-tile-prose">
+                        <span className="preview-education-detail-label">Experience</span>
+                        <div className="preview-education-highlights">
+                          {item.highlights.map((line, hIdx) => (
+                            <p key={`${item.id}-highlight-${hIdx}`} className="preview-education-highlight-p">
+                              {line}
+                            </p>
+                          ))}
+                        </div>
+                      </article>
+                    ) : null}
+                  </div>
               </article>
             ))}
           </div>
