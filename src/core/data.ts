@@ -124,7 +124,7 @@ export const EDUCATION: Education[] = [
     period: 'January 2026 - May 2026',
     location: 'Dublin, Ireland',
     highlights: [
-      'I chose study abroad first and foremost to travel, experience a new culture, and learn outside a typical classroom setting.',
+      'I chose study abroad first and foremost to travel, experience a new cultureimage.png, and learn outside a typical classroom setting.',
       'Dublin also sits in a growing European tech hub, so I was excited to take classes and explore the city while seeing how industry and startups show up day to day.',
     ],
   }

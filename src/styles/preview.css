@@ -407,6 +407,7 @@
 }
 
 .preview-education-card {
+  position: relative;
   padding: 0.86rem 0.92rem 0.94rem;
   border: 1px solid rgba(130, 156, 190, 0.26);
   border-radius: 12px;
