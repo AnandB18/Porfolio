@@ -18,10 +18,6 @@ This file documents the current command surface and expected behavior.
 
 - Returns short personal/profile summary lines.
 
-## `about`
-
-- Alias command (same output intent as `whoami`).
-
 ## `projects`
 
 - Prints available project IDs and titles from `PROJECTS`.

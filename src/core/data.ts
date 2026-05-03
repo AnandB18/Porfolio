@@ -29,8 +29,9 @@ export const ABOUT_PREVIEW = {
   imageAlt: 'Photo of Anand Bhat',
   title: 'WHOAMI',
   paragraphs: [
-    'Hello, I am Anand Bhat! I am currently pursuing a BS in Computer Science at The George Washington University with a passion in systems programming and cybersecurity.',
-    'Upcoming, I will be researching UAV anomaly detection at the Security and Systems Lab at GWU under the guidence of Dr. Mohan.',
+    'Hello, I am Anand Bhat!', 
+    'I am currently pursuing a BS in Computer Science at The George Washington University',
+    'Upcoming, I will be researching UAV anomaly detection at the GWU Security and Systems Lab under the guidence of Dr. Sibin Mohan.',
     'Outside of school, I enjoy anything sports related, winding down with a good book, and learning new things from side projects.',
     'You can contact me via the links below. Thank you for visiting my portfolio!'
   ],

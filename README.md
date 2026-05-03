@@ -11,7 +11,6 @@ The current focus is a keyboard-first command interface in the left panel, with 
   - `help`
   - `clear`
   - `whoami`
-  - `about` (alias for whoami content)
   - `projects`
   - `experience`
   - `contact`

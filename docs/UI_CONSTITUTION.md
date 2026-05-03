@@ -66,7 +66,7 @@ If a key is supported in one terminal-like context, do not silently remove it in
 Drive UI from explicit modes:
 
 - `default`
-- `about`
+- `whoami`
 - `projects`
 - `projectDetail`
 - `experience`
