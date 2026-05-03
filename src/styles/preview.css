@@ -222,6 +222,20 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.03),
     0 2px 8px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 170ms ease,
+    border-color 170ms ease,
+    box-shadow 170ms ease,
+    background 170ms ease;
+}
+
+.preview-project-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(151, 194, 255, 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 10px 20px rgba(0, 0, 0, 0.28);
+  background: linear-gradient(165deg, rgba(25, 37, 54, 0.9) 0%, rgba(13, 20, 31, 0.9) 100%);
 }
 
 .preview-project-image-wrap {
@@ -480,6 +494,20 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.03),
     0 2px 8px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 170ms ease,
+    border-color 170ms ease,
+    box-shadow 170ms ease,
+    background 170ms ease;
+}
+
+.preview-experience-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(151, 194, 255, 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 10px 20px rgba(0, 0, 0, 0.28);
+  background: linear-gradient(165deg, rgba(25, 37, 54, 0.9) 0%, rgba(13, 20, 31, 0.9) 100%);
 }
 
 .preview-experience-head {
