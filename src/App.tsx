@@ -259,9 +259,22 @@ function App() {
           <div className="preview-about-top">
             <div className="preview-about-text">
               <h3 className="preview-about-title">{ABOUT_PREVIEW.title}</h3>
-              {ABOUT_PREVIEW.paragraphs.map((paragraph, idx) => (
-                <p key={`${paragraph}-${idx}`}>{paragraph}</p>
-              ))}
+              {ABOUT_PREVIEW.paragraphs.map((paragraph, idx) => {
+                const tryTailMatch = paragraph.match(/^(.*?)(\s+Run:\s*.+)$/i);
+
+                if (!tryTailMatch) {
+                  return <p key={`${paragraph}-${idx}`}>{paragraph}</p>;
+                }
+
+                const [, leadingText, tryTailText] = tryTailMatch;
+
+                return (
+                  <p key={`${paragraph}-${idx}`}>
+                    <span>{leadingText}</span>
+                    <span className="preview-about-try-inline">{renderCommandHint(tryTailText.trim())}</span>
+                  </p>
+                );
+              })}
               <div className="preview-about-links" aria-label="Connect links">
                 {SOCIAL_LINKS.map((item) => {
                   const isExternal = item.href.startsWith('http');

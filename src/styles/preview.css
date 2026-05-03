@@ -506,6 +506,16 @@
   line-height: 1.45;
 }
 
+.preview-about-try-inline {
+  margin-left: 0.34rem;
+  font-size: 0.82em;
+  color: #97a7ba;
+}
+
+.preview-about-try-inline .preview-cmd {
+  font-weight: 700;
+}
+
 .preview-currently {
   margin-top: 2rem;
   z-index: 1;
