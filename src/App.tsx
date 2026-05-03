@@ -464,7 +464,25 @@ function App() {
                     </p>
                   </header>
                   <div className="preview-education-details" aria-label={`${item.school} details`}>
-                    {item.gpa ? (
+                    {item.gpaTechnical || item.gpaCumulative ? (
+                      <article className="preview-education-detail-tile">
+                        <span className="preview-education-detail-label">GPA</span>
+                        <div className="preview-education-gpa-rows">
+                          {item.gpaTechnical ? (
+                            <p className="preview-education-gpa-row">
+                              <span className="preview-education-gpa-sublabel">Technical GPA</span>
+                              <span className="preview-education-gpa-value">{item.gpaTechnical}</span>
+                            </p>
+                          ) : null}
+                          {item.gpaCumulative ? (
+                            <p className="preview-education-gpa-row">
+                              <span className="preview-education-gpa-sublabel">Cumulative GPA</span>
+                              <span className="preview-education-gpa-value">{item.gpaCumulative}</span>
+                            </p>
+                          ) : null}
+                        </div>
+                      </article>
+                    ) : item.gpa ? (
                       <article className="preview-education-detail-tile">
                         <span className="preview-education-detail-label">GPA</span>
                         <span className="preview-education-detail-value">{item.gpa}</span>
@@ -510,6 +528,18 @@ function App() {
                             ))}
                             </div>
                           ) : null}
+                        </div>
+                      </article>
+                    ) : null}
+                    {item.highlights?.length ? (
+                      <article className="preview-education-detail-tile preview-education-detail-tile-prose">
+                        <span className="preview-education-detail-label">Experience</span>
+                        <div className="preview-education-highlights">
+                          {item.highlights.map((line, hIdx) => (
+                            <p key={`${item.id}-highlight-${hIdx}`} className="preview-education-highlight-p">
+                              {line}
+                            </p>
+                          ))}
                         </div>
                       </article>
                     ) : null}

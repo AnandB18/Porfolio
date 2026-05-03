@@ -34,7 +34,10 @@ export type Education = {
   program: string;
   period: string;
   location?: string;
+  /** Single-line GPA when you do not split technical vs cumulative */
   gpa?: string;
+  gpaTechnical?: string;
+  gpaCumulative?: string;
   honors?: string[];
   coursework?: string[];
   highlights?: string[];

@@ -41,14 +41,28 @@ const toExperienceLines = () =>
   ]);
 
 const toEducationLines = () =>
-  EDUCATION.flatMap((item) => [
+  EDUCATION.flatMap((item) => {
+    const gpaLine =
+      item.gpaTechnical || item.gpaCumulative
+        ? `  GPA: ${[
+            item.gpaTechnical ? `Technical ${item.gpaTechnical}` : '',
+            item.gpaCumulative ? `Cumulative ${item.gpaCumulative}` : '',
+          ]
+            .filter(Boolean)
+            .join(' | ')}`
+        : item.gpa
+          ? `  GPA: ${item.gpa}`
+          : null;
+
+    return [
     `${item.program} | ${item.school} | ${item.period}`,
     ...(item.location ? [`  Location: ${item.location}`] : []),
-    ...(item.gpa ? [`  GPA: ${item.gpa}`] : []),
+    ...(gpaLine ? [gpaLine] : []),
     ...(item.honors?.length ? [`  Honors: ${item.honors.join(', ')}`] : []),
     ...(item.coursework?.length ? [`  Coursework: ${item.coursework.join(', ')}`] : []),
     ...(item.highlights ?? []).map((point) => `  ${point}`),
-  ]);
+    ];
+  });
 
 const buildPayload = (): SharedPortfolioData => ({
   asciiHeader: ASCII_HEADER,

@@ -112,8 +112,9 @@ export const EDUCATION: Education[] = [
     program: 'Bachelor of Science in Computer Science',
     period: 'Expected Graduation: May 2027',
     location: 'Washington, DC',
-    gpa: 'Technical 3.96 | Cumulative 3.83',
-    honors: ['Tau Beta Pi Engineering Honors Society (Fall 2025 - Present)', '2025 Outstanding Academic Acheivement Award','Dean\'s List (Fall 2023, Spring 2024, Fall 2024, Spring 2025)', 'Presidential Scholarship Academic Recipient'],
+    gpaTechnical: '3.96',
+    gpaCumulative: '3.83',
+    honors: ['Tau Beta Pi Engineering Honors Society (Fall 2025 - Present)', '2025 Outstanding Academic Achievement Award','Dean\'s List (Fall 2023, Spring 2024, Fall 2024, Spring 2025)', 'Presidential Scholarship Academic Recipient'],
     coursework: ['Intro to AI', 'Intro to Systems Programming', 'Intro to Computer Security', 'Operating Systems', 'Computer Architecture', 'Algorithms and Data Structures'],
   },
   {
@@ -122,7 +123,10 @@ export const EDUCATION: Education[] = [
     program: 'Study Abroad',
     period: 'January 2026 - May 2026',
     location: 'Dublin, Ireland',
-
+    highlights: [
+      'I chose study abroad first and foremost to travel, experience a new culture, and learn outside a typical classroom setting.',
+      'Dublin also sits in a growing European tech hub, so I was excited to take classes and explore the city while seeing how industry and startups show up day to day.',
+    ],
   }
 ];
 

@@ -54,14 +54,28 @@ export const COMMANDS: Record<string, CommandDefinition> = {
     description: 'Show education background',
     run: () => [
       EDUCATION_HEADER,
-      ...EDUCATION.flatMap((item) => [
+      ...EDUCATION.flatMap((item) => {
+        const gpaTerminalLine =
+          item.gpaTechnical || item.gpaCumulative
+            ? `  GPA: ${[
+                item.gpaTechnical ? `Technical ${item.gpaTechnical}` : '',
+                item.gpaCumulative ? `Cumulative ${item.gpaCumulative}` : '',
+              ]
+                .filter(Boolean)
+                .join(' | ')}`
+            : item.gpa
+              ? `  GPA: ${item.gpa}`
+              : null;
+
+        return [
         `- ${item.program} | ${item.school} | ${item.period}`,
         ...(item.location ? [`  Location: ${item.location}`] : []),
-        ...(item.gpa ? [`  GPA: ${item.gpa}`] : []),
+        ...(gpaTerminalLine ? [gpaTerminalLine] : []),
         ...(item.honors?.length ? [`  Honors: ${item.honors.join(', ')}`] : []),
         ...(item.coursework?.length ? [`  Coursework: ${item.coursework.join(', ')}`] : []),
         ...(item.highlights ?? []).map((point) => `  ${point}`),
-      ]),
+        ];
+      }),
     ],
   },
   resume: {
