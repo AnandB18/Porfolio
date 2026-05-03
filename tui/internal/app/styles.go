@@ -6,6 +6,8 @@ type theme struct {
 	Root         lipgloss.Style
 	Panel        lipgloss.Style
 	Header       lipgloss.Style
+	Tab          lipgloss.Style
+	TabActive    lipgloss.Style
 	SystemText   lipgloss.Style
 	OutputText   lipgloss.Style
 	ErrorText    lipgloss.Style
@@ -29,6 +31,14 @@ var tuiTheme = theme{
 	Header: lipgloss.NewStyle().
 		Foreground(lipgloss.Color("#79C0FF")).
 		Bold(true),
+	Tab: lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#7A8B87")).
+		Padding(0, 1),
+	TabActive: lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#0B0F14")).
+		Background(lipgloss.Color("#79C0FF")).
+		Bold(true).
+		Padding(0, 1),
 	SystemText: lipgloss.NewStyle().
 		Foreground(lipgloss.Color("#C3D1CF")),
 	OutputText: lipgloss.NewStyle().
