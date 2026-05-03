@@ -139,10 +139,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const urls = new Set<string>([anandImage, ...Object.values(CURRENTLY_IMAGE_MAP), ...Object.values(PROJECT_IMAGE_MAP)]);
-
     scheduleIdleTask(() => {
-      urls.forEach(preloadImage);
+      preloadImage(anandImage);
     });
   }, []);
 
