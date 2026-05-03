@@ -30,9 +30,9 @@ export const ABOUT_PREVIEW = {
   title: 'WHOAMI',
   paragraphs: [
     'Hello, I am Anand!', 
-    'I am currently pursuing a BS in Computer Science at The George Washington University',
-    'Upcoming, I will be researching UAV anomaly detection at the GWU Security and Systems Lab under the guidence of Dr. Sibin Mohan.',
-    'Outside of school, I enjoy anything sports related, winding down with a good book, and exploring new tools and technologies through side projects.',
+    'I am currently pursuing a BS in Computer Science at The George Washington University. Run: education',
+    'Upcoming, I will be researching UAV anomaly detection at the GWU Security and Systems Lab under the guidence of Dr. Sibin Mohan. Run: experience',
+    'Outside of school, I enjoy anything sports related, winding down with a good book, and exploring new tools and technologies through side projects. Run: projects',
     'You can contact me via the links below. Thank you for visiting my portfolio!'
   ],
 };
