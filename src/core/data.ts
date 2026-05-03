@@ -110,12 +110,11 @@ export const EDUCATION: Education[] = [
     id: 'gw-bs-cs',
     school: 'The George Washington University',
     program: 'Bachelor of Science in Computer Science',
-    period: 'expected graduation: May 2027',
+    period: 'Expected Graduation: May 2027',
     location: 'Washington, DC',
-    gpa: '3.8',
-    honors: ['Dean\'s List', 'President\'s List'],
-    coursework: ['Data Structures', 'Algorithms', 'Operating Systems', 'Computer Architecture', 'Computer Networks', 'Database Systems', 'Software Engineering'],
-    highlights: ['some highlights....', 'some more highlishts...', 'some more highlights...'],
+    gpa: 'Technical 3.96 | Cumulative 3.83',
+    honors: ['Tau Beta Pi Engineering Honors Society (Fall 2025 - Present)', '2025 Outstanding Academic Acheivement Award','Dean\'s List (Fall 2023, Spring 2024, Fall 2024, Spring 2025)', 'Presidential Scholarship Academic Recipient'],
+    coursework: ['Intro to AI', 'Intro to Systems Programming', 'Intro to Computer Security', 'Operating Systems', 'Computer Architecture', 'Algorithms and Data Structures'],
   },
   {
     id: 'ucd-stdyabrd',
@@ -123,7 +122,7 @@ export const EDUCATION: Education[] = [
     program: 'Study Abroad',
     period: 'January 2026 - May 2026',
     location: 'Dublin, Ireland',
-    highlights: ['some highlights....', 'some more highlishts...', 'some more highlights...'],
+
   }
 ];
 
