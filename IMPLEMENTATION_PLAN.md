@@ -30,7 +30,6 @@ This plan tracks what is done, what is next, and what we are intentionally delay
 
 3. Add remaining baseline commands
    - `contact`
-   - Optional alias: `about` -> `whoami`
 
 4. Improve command UX
    - Keep unknown-command suggestions.

@@ -7,7 +7,8 @@
   position: relative;
   min-height: 0;
   height: 100%;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding-right: 0;
   background:
     radial-gradient(680px circle at 16% 10%, rgba(94, 161, 255, 0.16), transparent 56%),
@@ -16,50 +17,52 @@
   animation: preview-bg-drift 9s ease-in-out infinite alternate;
 }
 
-.preview-output,
-.preview-projects,
-.preview-experience,
-.preview-about {
+.preview-output-scroll {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  contain: paint;
+  box-sizing: border-box;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-output-scroll > * {
+  position: relative;
+  z-index: 1;
+}
+
+.preview-output {
   scrollbar-gutter: stable;
   scrollbar-width: thin;
   scrollbar-color: var(--color-terminal-scrollbar-thumb) var(--color-terminal-scrollbar-track);
 }
 
-.preview-output::-webkit-scrollbar,
-.preview-projects::-webkit-scrollbar,
-.preview-experience::-webkit-scrollbar,
-.preview-about::-webkit-scrollbar {
+.preview-output::-webkit-scrollbar {
   width: 10px;
 }
 
-.preview-output::-webkit-scrollbar-track,
-.preview-projects::-webkit-scrollbar-track,
-.preview-experience::-webkit-scrollbar-track,
-.preview-about::-webkit-scrollbar-track {
+.preview-output::-webkit-scrollbar-track {
   background: var(--color-terminal-scrollbar-track);
   border-radius: 8px;
 }
 
-.preview-output::-webkit-scrollbar-thumb,
-.preview-projects::-webkit-scrollbar-thumb,
-.preview-experience::-webkit-scrollbar-thumb,
-.preview-about::-webkit-scrollbar-thumb {
+.preview-output::-webkit-scrollbar-thumb {
   background: var(--color-terminal-scrollbar-thumb);
   border-radius: 8px;
   border: 2px solid var(--color-terminal-scrollbar-track);
 }
 
-.preview-output::-webkit-scrollbar-thumb:hover,
-.preview-projects::-webkit-scrollbar-thumb:hover,
-.preview-experience::-webkit-scrollbar-thumb:hover,
-.preview-about::-webkit-scrollbar-thumb:hover {
+.preview-output::-webkit-scrollbar-thumb:hover {
   background: var(--color-terminal-scrollbar-thumb-hover);
 }
 
-.preview-output::before {
+.preview-output-scroll::before {
   content: '';
   position: absolute;
   inset: 0;
+  z-index: 0;
   background:
     linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent 22%, transparent 76%, rgba(0, 0, 0, 0.28)),
     repeating-linear-gradient(
@@ -78,10 +81,11 @@
     preview-overlay-drift 8.5s ease-in-out infinite alternate;
 }
 
-.preview-output::after {
+.preview-output-scroll::after {
   content: '';
   position: absolute;
-  inset: -22%;
+  inset: 0;
+  z-index: 0;
   background: radial-gradient(circle at 26% 24%, rgba(126, 196, 255, 0.12), transparent 46%);
   filter: blur(18px);
   pointer-events: none;
@@ -90,27 +94,27 @@
   animation: preview-glow-drift 8s ease-in-out infinite alternate, preview-glow-breathe 3.6s ease-in-out infinite;
 }
 
-.preview-effect-pulse.preview-output::after {
+.preview-output.preview-effect-pulse .preview-output-scroll::after {
   opacity: 0.95;
   transform: translate(2.4%, 1.2%) scale(1.07);
   filter: blur(17px) saturate(1.04);
 }
 
-.preview-effect-pulse.preview-output::before {
+.preview-output.preview-effect-pulse .preview-output-scroll::before {
   opacity: 0.84;
 }
 
-.preview-effect-spike.preview-output::before {
+.preview-output.preview-effect-spike .preview-output-scroll::before {
   opacity: 0.94;
 }
 
-.preview-effect-spike.preview-output::after {
+.preview-output.preview-effect-spike .preview-output-scroll::after {
   opacity: 1;
   transform: translate(4%, 2%) scale(1.1);
   filter: blur(18px);
 }
 
-.preview-effect-error::before {
+.preview-output.preview-effect-error .preview-output-scroll::before {
   animation:
     preview-scanline-shift 0.9s linear 1,
     preview-overlay-flicker 0.9s steps(8, end) 1,
@@ -119,7 +123,7 @@
     preview-error-jitter 0.28s steps(6, end) 1;
 }
 
-.preview-effect-error::after {
+.preview-output.preview-effect-error .preview-output-scroll::after {
   animation:
     preview-glow-drift 0.9s ease-out 1,
     preview-glow-breathe 0.9s ease-out 1,
@@ -127,15 +131,16 @@
 }
 
 .preview-default {
-  display: grid;
-  place-items: center;
-  min-height: 100%;
+  box-sizing: border-box;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 1rem;
 }
 
 .preview-default-content {
   position: relative;
-  z-index: 1;
   width: min(520px, 100%);
   text-align: left;
 }
@@ -176,9 +181,9 @@
   flex-direction: column;
   align-content: start;
   align-items: stretch;
-  min-height: 100%;
+  min-height: 0;
   padding: clamp(0.82rem, 2vw, 1.2rem);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .preview-projects {
@@ -187,10 +192,9 @@
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  height: 100%;
+  min-height: 0;
   padding: clamp(0.82rem, 2vw, 1.2rem);
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: visible;
 }
 
 .preview-projects-title {
@@ -311,9 +315,9 @@
   z-index: 1;
   display: grid;
   place-items: center;
-  min-height: 100%;
+  min-height: 0;
   padding: clamp(0.82rem, 2vw, 1.2rem);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .preview-resume-card {
@@ -374,10 +378,9 @@
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
-  height: 100%;
+  min-height: 0;
   padding: clamp(0.82rem, 2vw, 1.2rem);
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: visible;
 }
 
 .preview-experience-title {
@@ -680,10 +683,10 @@
 
 @keyframes preview-glow-drift {
   0% {
-    transform: translate(0, 0) scale(1);
+    transform: translate(0, 0);
   }
   100% {
-    transform: translate(4%, 3%) scale(1.05);
+    transform: translate(2%, 1.5%);
   }
 }
 
@@ -736,15 +739,12 @@
 @keyframes preview-glow-breathe {
   0% {
     opacity: 0.62;
-    filter: blur(14px) saturate(1);
   }
   50% {
-    opacity: 1;
-    filter: blur(22px) saturate(1.2);
+    opacity: 0.92;
   }
   100% {
     opacity: 0.62;
-    filter: blur(14px) saturate(1);
   }
 }
 
@@ -810,11 +810,11 @@
     animation: none;
   }
 
-  .preview-output::before {
+  .preview-output-scroll::before {
     animation: none;
   }
 
-  .preview-output::after {
+  .preview-output-scroll::after {
     animation: none;
   }
 }
@@ -822,16 +822,6 @@
 @media (max-width: 900px) {
   .preview-panel .window-shell {
     min-height: min(300px, 48dvh);
-  }
-
-  .preview-output {
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  .preview-about {
-    overflow-y: auto;
-    overflow-x: hidden;
   }
 
   .preview-about-top {

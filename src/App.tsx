@@ -36,12 +36,40 @@ import './styles/boot.css';
 type PreviewState =
   | 'default'
   | 'whoami'
-  | 'about'
   | 'projects'
   | 'experience'
   | 'education'
   | 'resume';
 type PreviewEffect = 'idle' | 'pulse' | 'spike' | 'error';
+
+const preloadImage = (src: string) => {
+  const img = new Image();
+  img.decoding = 'async';
+  img.src = src;
+};
+
+const scheduleIdleTask = (task: () => void) => {
+  const ric = window.requestIdleCallback;
+  if (typeof ric === 'function') {
+    ric(() => task(), { timeout: 2500 });
+    return;
+  }
+
+  window.setTimeout(task, 0);
+};
+
+const CURRENTLY_IMAGE_MAP: Record<string, string> = {
+  'reading-image': redRisingPhoto,
+  'watching-image': avatarPhoto,
+  'learning-image': cliImage,
+  'building-image': portfolioImage,
+};
+
+const PROJECT_IMAGE_MAP: Record<string, string> = {
+  'project-portfolio': portfolioImage,
+  'project-shell': cliImage,
+  'project-planner': redRisingPhoto,
+};
 
 function App() {
   const maxConcurrentTypingLines = 3;
@@ -59,6 +87,8 @@ function App() {
   const [previewEffect, setPreviewEffect] = useState<PreviewEffect>('idle');
   const outputRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const previewOutputRef = useRef<HTMLDivElement | null>(null);
+  const previewScrollRafRef = useRef<number | null>(null);
   const previewEffectTimeoutRef = useRef<number | null>(null);
   const [shouldAutoFollow, setShouldAutoFollow] = useState(true);
   const commitTypedLines = useCallback((lines: TerminalLine[]) => {
@@ -71,17 +101,36 @@ function App() {
     typingTickMs,
     onCommitLines: commitTypedLines,
   });
-  const currentlyImageMap: Record<string, string> = {
-    'reading-image': redRisingPhoto,
-    'watching-image': avatarPhoto,
-    'learning-image': cliImage,
-    'building-image': portfolioImage,
-  };
-  const projectImageMap: Record<string, string> = {
-    'project-portfolio': portfolioImage,
-    'project-shell': cliImage,
-    'project-planner': redRisingPhoto,
-  };
+
+  const normalizePreviewScroll = useCallback(() => {
+    const el = previewOutputRef.current;
+    if (!el) return;
+
+    const maxScroll = Math.max(0, el.scrollHeight - el.clientHeight);
+    if (maxScroll === 0) {
+      el.scrollTop = 0;
+      return;
+    }
+
+    el.scrollTop = Math.min(el.scrollTop, maxScroll);
+  }, []);
+
+  const scheduleNormalizePreviewScroll = useCallback(() => {
+    if (previewScrollRafRef.current !== null) return;
+
+    previewScrollRafRef.current = window.requestAnimationFrame(() => {
+      previewScrollRafRef.current = null;
+      normalizePreviewScroll();
+    });
+  }, [normalizePreviewScroll]);
+
+  useEffect(() => {
+    const urls = new Set<string>([anandImage, ...Object.values(CURRENTLY_IMAGE_MAP), ...Object.values(PROJECT_IMAGE_MAP)]);
+
+    scheduleIdleTask(() => {
+      urls.forEach(preloadImage);
+    });
+  }, []);
 
   const renderPrompt = () => (
     <span className="terminal-transcript-prompt">
@@ -204,7 +253,7 @@ function App() {
       );
     }
 
-    if (previewState === 'whoami' || previewState === 'about') {
+    if (previewState === 'whoami') {
       return (
         <section className="preview-about">
           <div className="preview-about-top">
@@ -244,7 +293,7 @@ function App() {
               {CURRENTLY_ITEMS.map((item) => {
                 const href = getExternalHref(item.href);
                 const hasLink = Boolean(href);
-                const imageSrc = item.imageKey ? currentlyImageMap[item.imageKey] : undefined;
+                const imageSrc = item.imageKey ? CURRENTLY_IMAGE_MAP[item.imageKey] : undefined;
 
                 return (
                   <article key={`${item.label}-${item.title}`} className="preview-currently-card">
@@ -295,7 +344,7 @@ function App() {
           <h3 className="preview-projects-title">Projects</h3>
           <div className="preview-projects-grid">
             {PROJECTS.map((project) => {
-              const imageSrc = project.imageKey ? projectImageMap[project.imageKey] : undefined;
+              const imageSrc = project.imageKey ? PROJECT_IMAGE_MAP[project.imageKey] : undefined;
               return (
                 <article key={project.id} className="preview-project-card">
                   <div className="preview-project-image-wrap">
@@ -528,6 +577,48 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const el = previewOutputRef.current;
+    if (!el) return;
+
+    const handleResize = () => {
+      scheduleNormalizePreviewScroll();
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    const resizeObserver =
+      typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(() => {
+            scheduleNormalizePreviewScroll();
+          })
+        : null;
+
+    resizeObserver?.observe(el);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      resizeObserver?.disconnect();
+      if (previewScrollRafRef.current !== null) {
+        window.cancelAnimationFrame(previewScrollRafRef.current);
+        previewScrollRafRef.current = null;
+      }
+    };
+  }, [scheduleNormalizePreviewScroll]);
+
+  useEffect(() => {
+    const el = previewOutputRef.current;
+    if (el) {
+      el.scrollTop = 0;
+    }
+
+    scheduleNormalizePreviewScroll();
+  }, [previewState, scheduleNormalizePreviewScroll]);
+
+  useEffect(() => {
+    scheduleNormalizePreviewScroll();
+  }, [previewEffect, scheduleNormalizePreviewScroll]);
+
   return (
     <main className="app-shell">
       <section className="window-panel terminal-panel">
@@ -589,9 +680,10 @@ function App() {
           </div>
           <div className="window-body preview-body">
             <div
+              ref={previewOutputRef}
               className={`preview-output preview-output-${previewState} preview-effect-${previewEffect}`}
             >
-              {renderPreviewContent()}
+              <div className="preview-output-scroll">{renderPreviewContent()}</div>
             </div>
           </div>
         </div>

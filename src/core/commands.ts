@@ -32,10 +32,6 @@ export const COMMANDS: Record<string, CommandDefinition> = {
     description: 'Learn about me',
     run: () => ABOUT_LINES,
   },
-  about: {
-    description: 'Alias for whoami',
-    run: () => ABOUT_LINES,
-  },
   projects: {
     description: 'List available projects',
     run: () => [
