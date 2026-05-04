@@ -12,7 +12,9 @@ export type CommandDefinition = {
 export type Project = {
   id: string;
   title: string;
-  summary?: string;
+  status?: 'current' | 'completed';
+  /** Short bullet-sized lines for the preview card (easier to scan than one long paragraph). */
+  summaryLines?: string[];
   stack?: string[];
   imageKey?: string;
   imageAlt?: string;

@@ -65,12 +65,6 @@ const CURRENTLY_IMAGE_MAP: Record<string, string> = {
   'building-image': portfolioImage,
 };
 
-const PROJECT_IMAGE_MAP: Record<string, string> = {
-  'project-portfolio': portfolioImage,
-  'project-shell': cliImage,
-  'project-planner': redRisingPhoto,
-};
-
 function App() {
   const maxConcurrentTypingLines = 3;
   const overlapStartRatio = 0.2;
@@ -364,56 +358,66 @@ function App() {
     }
 
     if (previewState === 'projects') {
+      const currentProjects = PROJECTS.filter((project) => project.status !== 'completed');
+      const completedProjects = PROJECTS.filter((project) => project.status === 'completed');
+      const renderProjectCards = (projects: typeof PROJECTS) =>
+        projects.map((project) => {
+          return (
+            <article key={project.id} className="preview-project-card">
+              <div className="preview-project-content">
+                <h4 className="preview-project-title">{project.title}</h4>
+                <div className="preview-project-summary-wrap">
+                  {project.summaryLines?.length ? (
+                    <ul className="preview-project-summary-list">
+                      {project.summaryLines.map((line, index) => (
+                        <li key={`${project.id}-summary-${index}`}>{line}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="preview-project-summary-empty">Project details coming soon.</p>
+                  )}
+                </div>
+                {project.stack?.length ? (
+                  <div className="preview-project-tags" aria-label={`${project.title} stack`}>
+                    {project.stack.map((tag) => (
+                      <span key={`${project.id}-${tag}`} className="preview-project-tag">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+                <div className="preview-project-links">
+                  {project.repoUrl ? (
+                    <a className="preview-project-link" href={project.repoUrl} target="_blank" rel="noreferrer">
+                      GitHub
+                    </a>
+                  ) : null}
+                  {project.liveUrl ? (
+                    <a className="preview-project-link" href={project.liveUrl} target="_blank" rel="noreferrer">
+                      Demo
+                    </a>
+                  ) : null}
+                </div>
+              </div>
+            </article>
+          );
+        });
+
       return (
         <section className="preview-projects" aria-label="Projects">
           <h3 className="preview-projects-title">Projects</h3>
-          <div className="preview-projects-grid">
-            {PROJECTS.map((project) => {
-              const imageSrc = project.imageKey ? PROJECT_IMAGE_MAP[project.imageKey] : undefined;
-              return (
-                <article key={project.id} className="preview-project-card">
-                  <div className="preview-project-image-wrap">
-                    {imageSrc ? (
-                      <img
-                        className="preview-project-image"
-                        src={imageSrc}
-                        alt={project.imageAlt ?? `${project.title} preview`}
-                      />
-                    ) : (
-                      <div className="preview-project-image preview-project-image-placeholder" />
-                    )}
-                  </div>
-                  <div className="preview-project-content">
-                    <h4 className="preview-project-title">{project.title}</h4>
-                    <p className="preview-project-summary">
-                      {project.summary ?? 'Project details coming soon.'}
-                    </p>
-                    {project.stack?.length ? (
-                      <div className="preview-project-tags" aria-label={`${project.title} stack`}>
-                        {project.stack.map((tag) => (
-                          <span key={`${project.id}-${tag}`} className="preview-project-tag">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    ) : null}
-                    <div className="preview-project-links">
-                      {project.repoUrl ? (
-                        <a className="preview-project-link" href={project.repoUrl} target="_blank" rel="noreferrer">
-                          GitHub
-                        </a>
-                      ) : null}
-                      {project.liveUrl ? (
-                        <a className="preview-project-link" href={project.liveUrl} target="_blank" rel="noreferrer">
-                          Live
-                        </a>
-                      ) : null}
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+          {currentProjects.length ? (
+            <section className="preview-projects-section" aria-label="Currently working on projects">
+              <h4 className="preview-projects-subtitle">Currently Working On</h4>
+              <div className="preview-projects-grid">{renderProjectCards(currentProjects)}</div>
+            </section>
+          ) : null}
+          {completedProjects.length ? (
+            <section className="preview-projects-section" aria-label="Completed projects">
+              <h4 className="preview-projects-subtitle">Completed</h4>
+              <div className="preview-projects-grid">{renderProjectCards(completedProjects)}</div>
+            </section>
+          ) : null}
         </section>
       );
     }
